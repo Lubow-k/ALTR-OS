@@ -1,37 +1,56 @@
 [BITS 16]
 
-
-
 cli
 mov ax, 0x2000    ; Correct stack segment
 mov ss, ax
 
-mov ax, 0x7D77    ; Correct extendet segment
+mov ax, 0x7D77    ; Correct extended segment
 mov es, ax
-sti
 
 mov ah, 2         ; Read sectors from drive
 mov al, 17        ; Number of sectors to read ----- 18
 mov ch, 0         ; Cylinder number 
 mov cl, 2         ; Starting sector number
+
+mov bx, 0x2000    ; Push 0x2000 to ds
+mov ds, bx
+
 xor bx, bx        ; Clear bx to read in es:bx
 
-mov dh, 0x2200    ; First time we read 17 segments so first counter
-                  ; must be lesser than 0x2400
-push dh
-xor dh, dh        ; Select head number
+xor dx, dx        ; Select head number
+sti
+
+push 0x2200       ; Push start counter for memory copy
 
 read_loop:
     int 0x13      ; Syscall to write
+; TODO: check if int do anything
 
-    mov ah,
-move_memmory:
-        pop bx    ; Get counter
-        push ax   ; Save ax
+move_memory:
+        pop bx    ; Get counter from stack
+        push ax   ; Save ax to stack
+        push bx   ; Save value on stack
 
-move_memmory_loop:
-        mov ax, [es + bx] ; Move memory to ax from es + bx
-        mov ax, 
+move_memory_cycle:
+                mov ax, [es:bx]         ; Get data from buffer
+                mov [ds:bx], ax         ; Move data to destination
+                dec bx                  ; Counter--
+                cmp bx, 0               ; Check if counter == zero
+                jz end_move_memory_cycle; If zero end cycle
+                jmp move_memory_cycle   ; Else repeat
+
+end_move_memory_cycle:
+        pop bx    ; Get value of counter
+        shr bx, 4 ; Move bx right by 4 bits to get new ds
+
+        mov ax, ds; |
+        add ax, bx; | Add to ds counter
+        mov ds, ax; |
+
+        pop ax    ; Get value of ax back
+
+        push 0x2400
+        xor bx, bx
 
     mov al, 18    ; Except first read
     mov cl, 1     ; Read from first sector except first read
@@ -44,9 +63,9 @@ inc_dh_zero:
         jmp dh_end
 dec_dh_one:
         dec dh    ; Decrement head number
-        inc ch    ; If dh == 1 then increment ch also
+        inc ch    ; If dh == 1 then increment ch also (Цилиндр)
 dh_end:
-    cmp ch, 12   ; Check if we done 13 reads
+    cmp ch, 13   ; Check if we done 13 reads
     jz end       ; Exit loop
     jmp read_loop; Repeat
 

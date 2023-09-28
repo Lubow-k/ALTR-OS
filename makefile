@@ -1,4 +1,4 @@
-FILE = hello
+FILE = driver
 
 all: emulate clean
 
