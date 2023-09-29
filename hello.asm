@@ -3,17 +3,21 @@
 cli
 mov ax, 0x7C0              ; Correct data segment
 mov ds, ax
+
+xor ax, ax                 ; Clear ax
+mov ss, ax                 ; Correct stack segment
+mov sp, 0x7c00             ; Correct sp
 sti
 
-xor ax, ax                 ; Clear ax register
 xor bx, bx                 ; Clear bx register
+
+mov ah, 0xE                ; Move 0xE in ah (to print char) up
 
 
 print_loop_start:
   mov al, [data + bx]      ; Get next ASCII symbol
   cmp al, 0x0              ; Check if al is 0
   jz loop_                 ; if so ends program
-  mov ah, 0xE              ; Move 0xE in ah (to print char)
   int 0x10                 ; Call printing
   inc bx                   ; Increment bx
   jmp print_loop_start     ; Continue the loop
