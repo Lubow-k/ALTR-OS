@@ -1,15 +1,16 @@
 [BITS 16]
 
 cli
-mov ax, 0x2000    ; Correct stack segment
-mov ss, ax
+xor ax, ax                 ; Clear ax
+mov ss, ax                 ; Correct stack segment
+mov sp, 0x7c00             ; Correct sp
 
-mov ax, 0x7D77    ; Correct extended segment
+mov ax, 0x7D77             ; Correct extended segment
 mov es, ax
 
 mov ah, 2         ; Read sectors from drive
-mov al, 17        ; Number of sectors to read ----- 18
-mov ch, 0         ; Cylinder number 
+mov al, 17        ; Number of sectors to read -----> 18
+mov ch, 0         ; Cylinder number
 mov cl, 2         ; Starting sector number
 
 mov bx, 0x2000    ; Push 0x2000 to ds
@@ -24,7 +25,7 @@ push 0x2200       ; Push start counter for memory copy
 
 read_loop:
     int 0x13      ; Syscall to write
-; TODO: check if int do anything
+    ; TODO: check if int do anything
 
 move_memory:
         pop bx    ; Get counter from stack
@@ -65,16 +66,15 @@ dec_dh_one:
         dec dh    ; Decrement head number
         inc ch    ; If dh == 1 then increment ch also (Цилиндр)
 dh_end:
-    cmp ch, 13   ; Check if we done 13 reads
+    cmp ch, 20   ; Check if we done 20 reads
     jz end       ; Exit loop
     jmp read_loop; Repeat
 
 
-
-;0x07D770     ;start buffer
-
 end:
 
-times 510-($-$$) db 0
+        
+    
 
+times 510-($-$$) db 0
 dw 0xAA55
