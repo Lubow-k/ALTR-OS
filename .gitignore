@@ -2,3 +2,6 @@
 *.json
 boot.bin
 boot.img
+os-dbg.bxrc
+os.bxrc
+bx_enh_dbg.ini 
