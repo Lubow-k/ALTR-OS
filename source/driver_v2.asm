@@ -22,16 +22,15 @@ main:
         inc bx               ; Increment counter
         push bx              ; Push counter on stack
         xor bx, bx           ; Clear bx
-        push bx              ; Send 0 to stack
+        push bx              ; Send 0 to stack (for 3 loop)
 
     read_int:
         mov ah, 2            ; Read sectors from drive
         mov al, 1            ; Number of sectors to read
         int 0x13
         jc error_message          ; Test if read successfully
-        pop bx                    ; get sub counter from stack
+        pop bx                    ; get sub counter from stack (to open access to global counter)
 
-; TODO check for errors
 
         mov bx, es
         add bx, 0x20              ; Add to bx 512 (1 sectors)
@@ -64,13 +63,13 @@ main:
         jmp read_loop         ; Repeat
 
 error_message:
-    pop bx
-    inc bx
-    cmp bx, 0x4
-    jz end
-    push bx
-    xor bx, bx
-    jmp read_int               ; Try to read from disk one more time
+    pop bx                    ; Get local counter from stack
+    inc bx                    ; Increment the bad tries to read from disk
+    cmp bx, 0x4               ; | If we tried more than 3 times -> finish
+    jz end                    ; |
+    push bx                   ; Push local counter on stack
+    xor bx, bx                ; Clean bx for [es:bx]
+    jmp read_int              ; Try to read from disk one more time
 
 count_sum:
     mov ax, 0x2000
