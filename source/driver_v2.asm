@@ -18,18 +18,17 @@ xor bx, bx        ; Clear bx register
 
 main:
     read_loop:
-
-        inc bx               ; Increment counter
-        push bx              ; Push counter on stack
-        xor bx, bx           ; Clear bx
-        push bx              ; Send 0 to stack (for 3 loop)
+        inc bx                  ; Increment counter
+        push bx                 ; Push counter on stack
+        xor bx, bx              ; Clear bx
+        push bx                 ; Send 0 to stack (for 3 loop)
 
     read_int:
-        mov ah, 2            ; Read sectors from drive
-        mov al, 1            ; Number of sectors to read
+        mov ah, 2               ; Read sectors from drive
+        mov al, 1               ; Number of sectors to read
         int 0x13
-        jc error_message          ; Test if read successfully
-        pop bx                    ; get sub counter from stack (to open access to global counter)
+        jc error_message        ; Test if read successfully
+        pop bx                  ; get sub counter from stack (to open access to global counter)
 
 
         mov bx, es
@@ -94,8 +93,7 @@ count_sum:
             jmp sum_loop      ; Repeat
 
 end:
-    loop:
-        jmp loop
+    jmp end
 
-    times 510-($-$$) db 0
-    dw 0xAA55
+times 510-($-$$) db 0
+dw 0xAA55
