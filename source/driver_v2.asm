@@ -11,6 +11,8 @@ mov ds, ax        ; Correct data segment
 mov ax, 0x2000    ; Correct extended segment
 mov es, ax
 
+mov ah, 2         ; Read sectors from drive
+mov al, 1         ; Number of sectors to read
 mov ch, 0         ; Cylinder number
 mov cl, 1         ; Starting sector number
 xor dh, dh        ; Set head
@@ -23,10 +25,10 @@ main:
         xor bx, bx           ; Clear bx
 
     read_int:
-        mov ah, 2            ; Read sectors from drive
-        mov al, 1            ; Number of sectors to read
+        mov ah, 2         ; Read sectors from drive
+        mov al, 1         ; Number of sectors to read
         int 0x13
-        jc read_int          ; Test if read sucsess
+        jc read_int       ; Test if read sucsess
 
         ; TODO check for errors
         
@@ -36,18 +38,22 @@ main:
         xor bx, bx                ; Clear bx
 
         inc cl                    ; Increment sector number
+
+        test bx, bx               ; Clear flags
         cmp cl, 0x13              ; Check if we on 19th sector
         jz check_increment_head   ; Then need to increment more
         jmp check_if_end          ; Continue reading
 
     check_increment_head:
-        mov cl, 0x1           ; Set sectors to 1
-        cmp dh, 0             ; Check if head is 0
-        jz increment_head     ; If zero increment
-        jmp decrement_head    ; If one decrement
+        mov cl, 0x1               ; Set sectors to 1
+
+        test bx, bx               ; Clear flags
+        cmp dh, 0                 ; Check if head is 0
+        jz increment_head         ; If zero increment
+        jmp decrement_head        ; If one decrement
 
     increment_head:
-            inc dh            ; Increment head number
+            inc dh                ; Increment head number
             jmp check_if_end
 
     decrement_head:
@@ -56,33 +62,36 @@ main:
 
     check_if_end:
         pop bx                ; Get counter
+
+        test bx, bx           ; Clear flags
         cmp bx, 0x300         ; Check if we read 768 sectors
         jz count_sum          ; Exit loop
         jmp read_loop         ; Repeat
+
 
 count_sum:
     mov ax, 0x2000
     mov es, ax
 
-    xor ax, ax                ; Initiate sum
-    xor bx, bx                ; Initiate counter under 16
+    xor ax, ax                   ; Initiate sum
+    xor bx, bx                   ; Initiate counter under 16
 
     sum_loop:
         add al, byte [es:bx]  
         inc bx
-        cmp bx, 0x10          ; Check if 16
-        jz move_es            ; increment es
-        jmp sum_loop          ; Repeat
+        cmp bx, 0x10             ; Check if 16
+        jz move_es               ; increment es
+        jmp sum_loop             ; Repeat
         move_es:
-            mov bx, es        ; Get es
-            inc bx            ; Increment es
-            cmp bx, 0x8000    ; Check if thats all
+            mov bx, es           ; Get es
+            inc bx               ; Increment es
+            cmp bx, 0x8000       ; Check if that's all
             jz end
             mov es, bx
-            xor bx, bx        ; Get null to counter
-            jmp sum_loop      ; Repeat
+            xor bx, bx           ; Get null to counter
+            jmp sum_loop         ; Repeat
 
-end:     
+end:
     loop:
         jmp loop
 
