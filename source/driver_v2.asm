@@ -18,7 +18,6 @@ xor bx, bx        ; Clear bx register
 
 main:
     read_loop:
-
         inc bx               ; Increment counter
         push bx              ; Push counter on stack
         xor bx, bx           ; Clear bx
@@ -30,7 +29,6 @@ main:
         int 0x13
         jc error_message          ; Test if read successfully
         pop bx                    ; get sub counter from stack (to open access to global counter)
-
 
         mov bx, es
         add bx, 0x20              ; Add to bx 512 (1 sectors)
@@ -94,8 +92,7 @@ count_sum:
             jmp sum_loop      ; Repeat
 
 end:
-    loop:
-        jmp loop
+    jmp end
 
-    times 510-($-$$) db 0
-    dw 0xAA55
+times 510-($-$$) db 0
+dw 0xAA55
