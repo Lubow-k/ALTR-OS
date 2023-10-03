@@ -18,7 +18,6 @@ xor bx, bx        ; Clear bx register
 
 main:
     read_loop:
-; Move after check errors
         inc bx               ; Increment counter
         push bx              ; Push counter on stack
         xor bx, bx           ; Clear bx
@@ -28,9 +27,9 @@ main:
         mov al, 1            ; Number of sectors to read
         int 0x13
         jc read_int          ; Test if read sucsess
-        
-; TODO check for errors
 
+        ; TODO check for errors
+        
         mov bx, es
         add bx, 0x20              ; Add to bx 512 (1 sectors)
         mov es, bx                ; Move es
