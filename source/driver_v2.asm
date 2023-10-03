@@ -12,7 +12,7 @@ mov ax, 0x2000    ; Correct extended segment
 mov es, ax
 
 mov ah, 2         ; Read sectors from drive
-mov al, 2         ; Number of sectors to read
+mov al, 1         ; Number of sectors to read
 mov ch, 0         ; Cylinder number
 mov cl, 1         ; Starting sector number
 xor dh, dh        ; Set head
@@ -26,10 +26,13 @@ main:
         xor bx, bx           ; Clear bx
 
     read_int:
+        mov ah, 0x2         ; Read sectors from drive
+        mov al, 0x1         ; Number of sectors to read
+
         test bx, bx
         int 0x13
 
-        jc read_int          ; Test if read sucsess
+        jc endless_loop          ; Test if read sucsess
         
 ; TODO check for errors
 
@@ -69,28 +72,9 @@ main:
         jz end                ; Exit loop
         jmp read_loop         ; Repeat
 
-; end:
-;     mov ax, 0x2000
-;     mov es, ax
-
-;     xor ax, ax                ; Initiate sum
-;     xor bx, bx                ; Initiate counter under 16
-
-;     sum_loop:
-;         add al, byte [es:bx]  ; May be error
-;         inc bx
-;         cmp bx, 0x10          ; Check if 16
-;         jz move_es            ; increment es
-;         jmp sum_loop          ; Repeat
-;         move_es:
-;             mov bx, es        ; Get es
-;             inc bx            ; Increment es
-;             cmp bx, 0x8000    ; Check if thats all
-;             jz end_end
-;             mov es, bx
-;             xor bx, bx        ; Get null to counter
-;             jmp sum_loop      ; Repeat
 end:
-end_end:     
+end_end:
+    endless_loop:
+        jmp endless_loop
     times 510-($-$$) db 0
     dw 0xAA55
