@@ -13,7 +13,7 @@ img: asm
 	dd if=test.bin of=$(FILE).img conv=notrunc seek=1
 
 emulate: img
-	qemu-system-i386 -monitor stdio $(FILE).img
+	qemu-system-i386 -monitor stdio -drive file=$(FILE).img,if=floppy,format=raw
 
 clean:
 	# rm $(FILE).img
