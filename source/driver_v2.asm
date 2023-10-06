@@ -5,9 +5,6 @@ xor ax, ax                       ; |
 mov ss, ax                       ; |
 mov sp, 0x7C00                   ; |Correct stack segment
 
-mov ax, 0x7C0
-mov ds, ax                       ; Correct data segment
-
 xor ch, ch                       ; Cylinder number
 mov cl, 1                        ; Starting sector number
 xor dh, dh                       ; Set head 0
@@ -60,8 +57,7 @@ count_sum:
         add al, byte [es:bx]
         inc bx
         cmp bx, 0x10             ; Check if 16
-        je move_es               ; increment es
-        jmp sum_loop             ; Repeat
+        jne sum_loop             ; Repeat
         move_es:
             mov bx, es           ; Get es
             inc bx               ; Increment es
