@@ -13,7 +13,7 @@ def generate_test_bin():
 
 
 count_sum = 0
-with open("out.bin", "rb") as file:
+with open("driver_v2.bin", "rb") as file:
     number = list(file.read())
     count_sum += sum(number)
 
