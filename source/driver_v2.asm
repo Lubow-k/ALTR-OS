@@ -37,7 +37,7 @@ main:
 
     check_if_end:
         cmp di, 0x8000           ; Check if we read 768 sectors -->0x0
-        je count_sum             ; Exit loop
+        je end1                   ; Exit loop
         jmp read_loop            ; Repeat
 
 error_message:
@@ -46,27 +46,8 @@ error_message:
     je end                       ; |
     jmp read_int                 ; Try to read from disk one more time
 
-count_sum:
-    mov ax, 0x2000
-    mov es, ax
-
-    xor ax, ax                   ; Initiate sum
-    xor bx, bx                   ; Initiate counter under 16
-
-    sum_loop:
-        add al, byte [es:bx]
-        inc bx
-        cmp bx, 0x10             ; Check if 16
-        jne sum_loop             ; Repeat
-        move_es:
-            mov bx, es           ; Get es
-            inc bx               ; Increment es
-            cmp bx, 0x8000       ; Check if that's all
-            je end
-            mov es, bx
-            xor bx, bx           ; Get null to counter
-            jmp sum_loop         ; Repeat
-
+end1:
+    jmp 0x20200
 end:
     jmp end
 
