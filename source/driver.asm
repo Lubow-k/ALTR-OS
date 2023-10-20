@@ -1,84 +1,74 @@
 [BITS 16]
 
-; TODO read first sector!!!
-; dl is ready
-; TODO move buffer? 
-
 cli
-xor ax, ax                 ; Clear ax
-mov ss, ax                 ; Correct stack segment
-mov sp, 0x7c00             ; Correct sp
+xor ax, ax                       ; |
+mov ss, ax                       ; |
+mov sp, 0x7C00                   ; |Correct stack segment
 
-mov ax, 0x7D77             ; Correct extended segment
-mov es, ax
+xor ch, ch                       ; Cylinder number
+mov cl, 1                        ; Starting sector number
+xor dh, dh                       ; Set head 0
+xor bx, bx                       ; Clear bx register --> Always 0 for int
+mov di, 0x2000                   ; Clear global counter
 
-mov ah, 2         ; Read sectors from drive
-mov al, 17        ; Number of sectors to read -----> 18
-mov ch, 0         ; Cylinder number
-mov cl, 2         ; Starting sector number
+main:
+    read_loop:
+        xor si, si               ; Clear counter for error loop
+        mov es, di               ; Move es
 
-mov bx, 0x2000    ; Push 0x2000 to ds
-mov ds, bx
+    read_int:
+        mov ah, 2                ; Read sectors from drive
+        mov al, 1                ; Number of sectors to read
+        int 0x13
+        jc error_message         ; Test if read successfully
 
-xor bx, bx        ; Clear bx to read in es:bx
+        add di, 0x20             ; Add 200 (move 200 after reading one sector)
 
-xor dx, dx        ; Select head number
-sti
+        inc cl                   ; Increment sector number
+        cmp cl, 0x13             ; Check if we on 19th sector
+        jne check_if_end         ; Then need to increment more
 
-push 0x2200       ; Push start counter for memory copy
+        mov cl, 0x1              ; Set sectors to 1
+        inc dh                   ; | Increment head
+        cmp dh, 0x2              ; If head became 2 --> we done 1 cylinder + reset head
+        jne check_if_end         ; If not check if we finished
+        xor dh, dh
+        inc ch                   ; Increment cylinder number
 
-read_loop:
-    int 0x13      ; Syscall to write
-    ; TODO: check if int do anything
+    check_if_end:
+        cmp di, 0x8000           ; Check if we read 768 sectors -->0x0
+        je count_sum             ; Exit loop
+        jmp read_loop            ; Repeat
 
-move_memory:
-        pop bx    ; Get counter from stack
-        push ax   ; Save ax to stack
-        push bx   ; Save value on stack
+error_message:
+    inc si                       ; Increment the bad tries to read from disk
+    cmp si, 0x4                  ; | If we tried more than 3 times -> finish
+    je end                       ; |
+    jmp read_int                 ; Try to read from disk one more time
 
-move_memory_cycle:
-                mov ax, [es:bx]           ; Get data from buffer
-                mov [ds:bx], ax           ; Move data to destination
-                dec bx                    ; Counter--
-                cmp bx, 0                 ; Check if counter == zero
-                jz end_move_memory_cycle  ; If zero end cycle
-                jmp move_memory_cycle     ; Else repeat
+count_sum:
+    mov ax, 0x2000
+    mov es, ax
 
-end_move_memory_cycle:
-        pop bx         ; Get value of counter
-        shr bx, 4      ; Move bx right by 4 bits to get new ds
+    xor ax, ax                   ; Initiate sum
+    xor bx, bx                   ; Initiate counter under 16
 
-        mov ax, ds    ; |
-        add ax, bx    ; | Add to ds counter
-        mov ds, ax    ; |
-
-        pop ax        ; Get value of ax back
-
-        push 0x2400
-        xor bx, bx
-
-    mov al, 18        ; Except first read
-    mov cl, 1         ; Read from first sector except first read
-
-    cmp dh, 0         ; Check if dh == 0
-    jz inc_dh_zero    ; If zero increment
-    jmp dec_dh_one    ; If one decrement
-inc_dh_zero:
-        inc dh        ; Increment head number
-        jmp dh_end
-dec_dh_one:
-        dec dh        ; Decrement head number
-        inc ch        ; If dh == 1 then increment ch also (Цилиндр)
-dh_end:
-    cmp ch, 20        ; Check if we done 20 reads
-    jz end            ; Exit loop
-    jmp read_loop     ; Repeat
-
+    sum_loop:
+        add al, byte [es:bx]
+        inc bx
+        cmp bx, 0x10             ; Check if 16
+        jne sum_loop             ; Repeat
+        move_es:
+            mov bx, es           ; Get es
+            inc bx               ; Increment es
+            cmp bx, 0x8000       ; Check if that's all
+            je end
+            mov es, bx
+            xor bx, bx           ; Get null to counter
+            jmp sum_loop         ; Repeat
 
 end:
-
-
-    
+    jmp end
 
 times 510-($-$$) db 0
 dw 0xAA55
