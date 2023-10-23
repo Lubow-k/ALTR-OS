@@ -43,7 +43,7 @@ main:
 error_message:
     inc si                       ; Increment the bad tries to read from disk
     cmp si, 0x4                  ; | If we tried more than 3 times -> finish
-    je main_1               
+    je main_1
     jmp read_int                 ; Try to read from disk one more time
 
 
@@ -54,7 +54,7 @@ gdt_start:
     dw 0x0
     dw 0x9A00
     dw 0xCF
-  gdt_data:                                   
+  gdt_data:
     dw 0xFFFF
     dw 0x0
     dw 0x9200
@@ -67,7 +67,8 @@ gdt_descriptor:
 
 
 main_1:
-  ;xor cr0, cr0 
+  xor ecx, ecx
+  mov cr0, ecx
   CODE_SEG equ gdt_code - gdt_start
   DATA_SEG equ gdt_data - gdt_start
   lgdt [gdt_descriptor]
@@ -81,7 +82,7 @@ protected_mode_tramplin:
     mov ss, ax                            ; |
     mov es, ax                            ; | setup data segment registers
     mov fs, ax                            ; |
-    mov gs, ax                            ; |  
+    mov gs, ax                            ; |
     mov esp, 0x20000                      ;   setup stack
     jmp CODE_SEG:0x20200
 
