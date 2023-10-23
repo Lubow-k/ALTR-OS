@@ -37,55 +37,53 @@ main:
 
     check_if_end:
         cmp di, 0x8000           ; Check if we read 768 sectors -->0x0
-        je gdt_end                   ; Exit loop
+        je main_1                ; Exit loop
         jmp read_loop            ; Repeat
 
 error_message:
     inc si                       ; Increment the bad tries to read from disk
     cmp si, 0x4                  ; | If we tried more than 3 times -> finish
-    je end                       ; |
+    je main_1               
     jmp read_int                 ; Try to read from disk one more time
 
-
-gdt_create:
-                                    ; ?
 
 gdt_start:
     dq 0x0
   gdt_code:
-    dw 0xC1
-    dw 0x5A00
+    dw 0xFFFF
     dw 0x0
+    dw 0x9A00
+    dw 0xCF
+  gdt_data:                                   
+    dw 0xFFFF
     dw 0x0
-  gdt_data:                                     ; table needed
-    dw 0xC1
-    dw 0x5200
-    dw 0x0
-    dw 0x0
-
+    dw 0x9200
+    dw 0xCF
 gdt_end:
-  xor CR0, CR0
-  lgdt [gdt_descriptor]
-  jmp CODE_SEG:protected_mode_tramplin + 0x7C00   ; Far jump
 
 gdt_descriptor:
   dw gdt_end - gdt_start - 1
   dd gdt_start + 0x20000
 
-CODE_SEG equ gdt_code - gdt_start
-DATA_SEG equ gdt_data - gdt_start
+
+main_1:
+  ;xor cr0, cr0 
+  CODE_SEG equ gdt_code - gdt_start
+  DATA_SEG equ gdt_data - gdt_start
+  lgdt [gdt_descriptor]
+  jmp CODE_SEG:protected_mode_tramplin + 0x7C00   ; Far jump
 
 
 [BITS 32]
 protected_mode_tramplin:
-    mov ds, DATA_SEG                            ; |
-    mov ss, DATA_SEG                            ; |
-    mov es, DATA_SEG                            ; | setup data segment registers
-    mov fs, DATA_SEG                            ; |
-    mov gs, DATA_SEG                            ; |  
-    mov esp, 0x20000                            ;   setup stack
+    mov ax, DATA_SEG
+    mov ds, ax                            ; |
+    mov ss, ax                            ; |
+    mov es, ax                            ; | setup data segment registers
+    mov fs, ax                            ; |
+    mov gs, ax                            ; |  
+    mov esp, 0x20000                      ;   setup stack
     jmp CODE_SEG:0x20200
-
 
 
 times 510-($-$$) db 0
