@@ -54,7 +54,7 @@ gdt_start:
     dw 0x0
     dw 0x9A00
     dw 0xCF
-  gdt_data:                                   
+  gdt_data:
     dw 0xFFFF
     dw 0x0
     dw 0x9200
