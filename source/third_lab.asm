@@ -37,13 +37,13 @@ main:
 
     check_if_end:
         cmp di, 0x8000           ; Check if we read 768 sectors -->0x0
-        je main_1                ; Exit loop
+        je main_gdt              ; Exit loop
         jmp read_loop            ; Repeat
 
 error_message:
     inc si                       ; Increment the bad tries to read from disk
     cmp si, 0x4                  ; | If we tried more than 3 times -> finish
-    je main_1               
+    je main_gdt               
     jmp read_int                 ; Try to read from disk one more time
 
 
@@ -66,23 +66,25 @@ gdt_descriptor:
   dd gdt_start + 0x20000
 
 
-main_1:
-  ;xor cr0, cr0 
+main_gdt:
+  lgdt [gdt_descriptor + 0x7c00]
+  mov ecx, cr0
+  or ecx, 0x1
+  mov cr0, ecx 
   CODE_SEG equ gdt_code - gdt_start
   DATA_SEG equ gdt_data - gdt_start
-  lgdt [gdt_descriptor]
   jmp CODE_SEG:protected_mode_tramplin + 0x7C00   ; Far jump
 
 
 [BITS 32]
 protected_mode_tramplin:
-    mov ax, DATA_SEG
-    mov ds, ax                            ; |
-    mov ss, ax                            ; |
-    mov es, ax                            ; | setup data segment registers
-    mov fs, ax                            ; |
-    mov gs, ax                            ; |  
-    mov esp, 0x20000                      ;   setup stack
+    mov eax, DATA_SEG
+    mov ds, eax                            ; |
+    mov ss, eax                            ; |
+    mov es, eax                            ; | setup data segment registers
+    mov fs, eax                            ; |
+    mov gs, eax                            ; |  
+    mov esp, 0x20000                       ;   setup stack
     jmp CODE_SEG:0x20200
 
 
