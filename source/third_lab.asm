@@ -43,7 +43,7 @@ main:
 error_message:
     inc si                       ; Increment the bad tries to read from disk
     cmp si, 0x4                  ; | If we tried more than 3 times -> finish
-    je main_gdt               
+    je error_end               
     jmp read_int                 ; Try to read from disk one more time
 
 
@@ -65,14 +65,14 @@ gdt_descriptor:
   dw gdt_end - gdt_start - 1
   dd gdt_start + 0x20000
 
+CODE_SEG equ gdt_code - gdt_start
+DATA_SEG equ gdt_data - gdt_start
 
 main_gdt:
   lgdt [gdt_descriptor + 0x7c00]
   mov ecx, cr0
   or ecx, 0x1
   mov cr0, ecx 
-  CODE_SEG equ gdt_code - gdt_start
-  DATA_SEG equ gdt_data - gdt_start
   jmp CODE_SEG:protected_mode_tramplin + 0x7C00   ; Far jump
 
 
@@ -87,6 +87,8 @@ protected_mode_tramplin:
     mov esp, 0x20000                       ;   setup stack
     jmp CODE_SEG:0x20200
 
+error_end:
+  jmp error_end
 
 times 510-($-$$) db 0
 dw 0xAA55

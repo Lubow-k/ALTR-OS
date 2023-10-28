@@ -1,6 +1,6 @@
 #!/bin/bash
 
-gcc -m32 -ffreestanding -c -o kernel.o -fno-pic kernel.c
+gcc -m32 -ffunction-sections -c -o kernel.o -fno-pic kernel.c
 ld -m i386pe -o kernel.tmp -Ttext 0x20200 kernel.o
 objcopy -I pe-i386 -O binary kernel.tmp kernel.bin
 
