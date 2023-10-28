@@ -76,14 +76,29 @@ void print(char* fmt, ...) {
     address += 1;
     // vga_print_str(*(char**) address, 1, 1);
     
-
     while (*fmt != '\0') {
         if (*fmt == '%') {
             fmt++;
             if (*fmt == 'd') {
+                int num = *(int*) address;
+                int counter = 0;
+                while (num > 0) {
+                    num = num / 10;
+                    counter++;
+                } 
+                int deg = 10;
+                int tmp = 10;   
+                for (int i = 0; i < counter - 2; i++) {  // get 10^(counter - 1)
+                     deg *= tmp;
+                }
+                
                 num = *(int*) address;
-                // Разделить на разряды и напечатать
-                inner_vga_print_char(*(int*) address + 48);
+                for (int i = 0; i < counter; i++) {
+                    int digit = num / deg;
+                    num = num % deg;
+                    deg = deg / 10;
+                    inner_vga_print_char(digit + 48);                    
+                }
                 address++;
             }else if (*fmt == 'x') {
                 // get symbol
@@ -101,8 +116,7 @@ void print(char* fmt, ...) {
 
 void __main() {
     init_printer();
-
-    print("%d", 12);
+    print("Hello world, %d", 345);
     for (;;);
 }
 
