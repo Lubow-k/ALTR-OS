@@ -68,12 +68,37 @@ void init_printer() {
     ADDRESS = (short int*) 0xB8000;
 }
 
+void print_number(int number, int base) {
+    int num = number;
+    int counter = 0;
+    while (num > 0) {
+        num = num / base;
+        counter++;
+    } 
+    int deg = base;
+    int tmp = base;   
+    for (int i = 0; i < counter - 2; i++) {  // get base^(counter - 1)
+            deg *= tmp;
+    }
+
+    for (int i = 0; i < counter; i++) {
+        int digit = number / deg;
+        number = number % deg;
+        deg = deg / base;
+        if (digit > 9){
+            inner_vga_print_char(digit + 55);
+        } else{
+            inner_vga_print_char(digit + 48); 
+        }                      
+    }
+}
+
 // Когда напишем print написать протестить check_end
 void print(char* fmt, ...) {
     int* address = (int*) &fmt;
+    address++;
 
     // vga_print_str(*(char**) address, 0, 0);
-    address += 1;
     // vga_print_str(*(char**) address, 1, 1);
     
     while (*fmt != '\0') {
@@ -81,32 +106,16 @@ void print(char* fmt, ...) {
             fmt++;
             if (*fmt == 'd') {
                 int num = *(int*) address;
-                int counter = 0;
-                while (num > 0) {
-                    num = num / 10;
-                    counter++;
-                } 
-                int deg = 10;
-                int tmp = 10;   
-                for (int i = 0; i < counter - 2; i++) {  // get 10^(counter - 1)
-                     deg *= tmp;
-                }
-                
-                num = *(int*) address;
-                for (int i = 0; i < counter; i++) {
-                    int digit = num / deg;
-                    num = num % deg;
-                    deg = deg / 10;
-                    inner_vga_print_char(digit + 48);                    
-                }
+                print_number(num, 10);
                 address++;
             }else if (*fmt == 'x') {
-                // get symbol
-                // vga_print_char(symbol + ??, X, Y);
+                int num = *(int*) address;
+                print_number(num, 16);
+                address++;
             }else if (*fmt == 's') {
                 inner_vga_print_str(*(char**) address);
                 address++;
-            }
+            } // else not support
         } else {
             inner_vga_print_char(*fmt);
         }
@@ -114,9 +123,26 @@ void print(char* fmt, ...) {
    }
 }
 
+
+void print_logo() {
+    char* logo[] = {"                                                                                \0",
+                    "                                                                                \0",
+                    "                                                                                \0",
+                    "                                                                                \0",
+                    "1                   ________   ___    _________   ________                      \0",
+                    "2                  |\\   __  \\ |\\  \\  |\\___   ___\\|\\   __  \\                     \0",
+                    "3                   \\ \\  \\|\\  \\\\ \\  \\ \\|___\\  \\_| \\ \\  \\|\\  \\                   \0",
+                    "4                  \\ \\   __  \\\\ \\  \\     \\ \\  \\  \\ \\   _  _\\                 \0"};
+
+    for(int i = 0; i < 8; i++) {
+        inner_vga_print_str(logo[i]);
+    }
+}
+
 void __main() {
     init_printer();
-    print("Hello world, %d", 345);
+    print_logo();
+    // print("Hello world , %x", 0x56B2C);
     for (;;);
 }
 
