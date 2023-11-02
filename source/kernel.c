@@ -69,27 +69,32 @@ void init_printer() {
 }
 
 void print_number(int number, int base) {
-    int num = number;
-    int counter = 0;
-    while (num > 0) {
-        num = num / base;
-        counter++;
+    if (number == 0) {
+        inner_vga_print_char(48);
     }
-    int deg = base;
-    int tmp = base;
-    for (int i = 0; i < counter - 2; i++) {  // get base^(counter - 1)
-        deg *= tmp;
-    }
-
-    for (int i = 0; i < counter; i++) {
-        int digit = number / deg;
-        number = number % deg;
-        deg = deg / base;
-        if (digit > 9) {
-            inner_vga_print_char(digit + 55);
+    else {
+        int num = number;
+        int counter = 0;
+        while (num > 0) {
+            num = num / base;
+            counter++;
         }
-        else {
-            inner_vga_print_char(digit + 48);
+        int deg = 1;
+        int tmp = base;
+        for (int i = 0; i < counter - 1; i++) {  // get base^(counter - 1)
+            deg *= tmp;
+        }
+
+        for (int i = 0; i < counter; i++) {
+            int digit = number / deg;
+            number = number % deg;
+            deg = deg / base;
+            if (digit > 9) {
+                inner_vga_print_char(digit + 55);
+            }
+            else {
+                inner_vga_print_char(digit + 48);
+            }
         }
     }
 }
@@ -119,6 +124,8 @@ void print(char* fmt, ...) {
                 inner_vga_print_str(*(char**)address);
                 address++;
             } // else not support
+        } else if (*fmt == '\n') {
+            ADDRESS += 80;  //ERROR
         }
         else {
             inner_vga_print_char(*fmt);
@@ -149,10 +156,21 @@ void print_logo() {
     }
 }
 
+void check_scroll() {
+    init_printer();
+    for (int i = 0; i < 30; i++) {
+        for (int j = 0; j < i; j++) {
+            print(" ");
+        }
+        print("%d\n", i);
+    }
+}
+
 void __main() {
     init_printer();
-    print_logo();
-    // print("Hello world , %x", 0x56B2C);
+    // print_logo();
+    check_scroll();
+    // print("Hello world , %d", 12340);
     for (;;);
 }
 
