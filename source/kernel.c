@@ -32,7 +32,7 @@ void vga_print_char(char symbol) {  // печать символа в позиц
     X++;
 }
 
-void vga_print_str(char* str) {// печать строки, начиная с позиции (x, y)
+void vga_print_str(char* str) {    // печать строки, начиная с позиции (x, y)
     char c;
     int index = 0;
     while (str[index] != '\0') {
@@ -48,30 +48,6 @@ void check_end() {
     }
 }
 
-
-//void inner_check_end() {
-//    if (ADDRESS == (short int*)0xB8FA0) {
-//        inner_vga_move_screen();
-//    }
-//}
-//
-//void inner_vga_print_char(char symbol) {
-//    inner_check_end();
-//    short int mask = 0b10100000000;
-//    mask = mask | symbol;
-//    *(ADDRESS) = mask;
-//    ADDRESS++;
-//}
-//
-//void inner_vga_print_str(char* str) {
-//    char c;
-//    int index = 0;
-//    while (str[index] != '\0') {
-//        c = str[index++];
-//        inner_vga_print_char(c);
-//    }
-//}
-
 void vga_clear_screen() {  // очистка экрана
     short int* start = (short int*)0xB8000;
     for (int i = 0; i < 4000; i++) {
@@ -82,7 +58,6 @@ void vga_clear_screen() {  // очистка экрана
 
 void init_printer() {
     vga_clear_screen();
-    //ADDRESS = (short int*)0xB8000;
     X = 0;
     Y = 0;
 }
@@ -99,9 +74,8 @@ void print_number(int number, int base) {
             counter++;
         }
         int deg = 1;
-        int tmp = base;
         for (int i = 0; i < counter - 1; i++) {  // get base^(counter - 1)
-            deg *= tmp;
+            deg *= base;
         }
 
         for (int i = 0; i < counter; i++) {
@@ -118,7 +92,6 @@ void print_number(int number, int base) {
     }
 }
 
-//// Когда напишем print написать протестить check_end
 void print(char* fmt, ...) {
     int* address = (int*)&fmt;
     address++;
@@ -184,9 +157,9 @@ void check_scroll() {
 
 void __main() {
     init_printer();
-    //print_logo();
+    print_logo();
     //print("Hello, world!, %d", 5);
-    check_scroll();
+    // check_scroll();
 
     for (;;);
 }
