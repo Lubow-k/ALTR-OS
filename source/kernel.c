@@ -1,15 +1,58 @@
+short int* START_ADDRESS = (short int*)0xB8000;
+
 int X;
 int Y;
 
+void _memcpy(short int* from, short int* to, int size);
+
+void _clearcpy(short int* address, int size);
+
+void vga_move_screen();
+
+void check_coord();
+
+void vga_print_char(char symbol);
+
+void vga_print_str(char* str);
+
+void vga_clear_screen();
+
+void init_printer();
+
+void print_number(int number, int base);
+
+void print(char* fmt, ...);
+
+void print_logo();
+
+void check_scroll();
+
+void __main() {
+    init_printer();
+    print_logo();
+    //print("Hello, world!, %d, %%", 5);
+    //check_scroll();
+
+
+    for (;;);
+}
+
+
+void _memcpy(short int* from, short int* to, int size) {
+    for (int i = 0; i < size; i++) {
+        *(to + i) = *(from + i);
+    }
+}
+
+void _clearcpy(short int* address, int size) {
+    for (int i = 0; i < size; i++) {
+        *(address + i) = 0;
+    }
+}
+
 void vga_move_screen() {
-    short int* address = (short int*)0xB8000;
-    for (int i = 0; i < 4000 - 80; i++) {
-        *address = *(address + 80);
-        address++;
-    }
-    for (int i = 0; i < 80; i++) {
-        *address = 0;
-    }
+    _memcpy(START_ADDRESS + 80, START_ADDRESS, 3920);
+    _clearcpy(START_ADDRESS + 3920, 80);
     X = 0;
     Y = 24;
 }
@@ -26,9 +69,9 @@ void check_coord() {
 
 void vga_print_char(char symbol) {  // печать символа в позиции (x, y)
     check_coord();
-    short int mask = 0b10100000000;
+    short int mask = 0b10100000000; // Маска при печати символа, ставит цвет
     mask = mask | symbol;
-    *((short int*)0xB8000 + (Y * 80 + X)) = mask;
+    *((short int*)START_ADDRESS + (Y * 80 + X)) = mask;
     X++;
 }
 
@@ -38,42 +81,12 @@ void vga_print_str(char* str) {// печать строки, начиная с �
     while (str[index] != '\0') {
         c = str[index++];
         vga_print_char(c);
-        check_coord();
     }
 }
 
-void check_end() {
-    if (X == 80 && Y == 24) {
-        vga_move_screen();
-    }
-}
-
-
-//void inner_check_end() {
-//    if (ADDRESS == (short int*)0xB8FA0) {
-//        inner_vga_move_screen();
-//    }
-//}
-//
-//void inner_vga_print_char(char symbol) {
-//    inner_check_end();
-//    short int mask = 0b10100000000;
-//    mask = mask | symbol;
-//    *(ADDRESS) = mask;
-//    ADDRESS++;
-//}
-//
-//void inner_vga_print_str(char* str) {
-//    char c;
-//    int index = 0;
-//    while (str[index] != '\0') {
-//        c = str[index++];
-//        inner_vga_print_char(c);
-//    }
-//}
 
 void vga_clear_screen() {  // очистка экрана
-    short int* start = (short int*)0xB8000;
+    short int* start = (short int*)START_ADDRESS;
     for (int i = 0; i < 4000; i++) {
         *((short int*)start) = 0;
         start++;
@@ -82,7 +95,6 @@ void vga_clear_screen() {  // очистка экрана
 
 void init_printer() {
     vga_clear_screen();
-    //ADDRESS = (short int*)0xB8000;
     X = 0;
     Y = 0;
 }
@@ -98,10 +110,10 @@ void print_number(int number, int base) {
             num = num / base;
             counter++;
         }
+
         int deg = 1;
-        int tmp = base;
         for (int i = 0; i < counter - 1; i++) {  // get base^(counter - 1)
-            deg *= tmp;
+            deg *= base;
         }
 
         for (int i = 0; i < counter; i++) {
@@ -109,16 +121,15 @@ void print_number(int number, int base) {
             number = number % deg;
             deg = deg / base;
             if (digit > 9) {
-                vga_print_char(digit + 55);
+                vga_print_char(digit + 'A' - 10);
             }
             else {
-                vga_print_char(digit + 48);
+                vga_print_char(digit + '0');
             }
         }
     }
 }
 
-//// Когда напишем print написать протестить check_end
 void print(char* fmt, ...) {
     int* address = (int*)&fmt;
     address++;
@@ -139,11 +150,15 @@ void print(char* fmt, ...) {
             else if (*fmt == 's') {
                 vga_print_str(*(char**)address);
                 address++;
-            } // else not support
+            }
+            else {
+                vga_print_char(*fmt);
+            }
         }
         else if (*fmt == '\n') {
             Y++;
             X = 0;
+            check_coord();
         }
         else {
             vga_print_char(*fmt);
@@ -154,13 +169,13 @@ void print(char* fmt, ...) {
 
 
 void print_logo() {
-    char* logo[] = { "                  ________   ___    _________   ________",
-                    "                  |\\   __  \\ |\\  \\  |\\___   ___\\|\\   __  \\",
-                    "                   \\ \\  \\|\\  \\\\ \\  \\ \\|___\\  \\_| \\ \\  \\|\\  \\",
-                    "                     \\ \\   __  \\\\ \\  \\    \\ \\  \\   \\ \\   _  _\\",
-                    "                       \\ \\  \\ \\  \\\\ \\  \\____\\ \\  \\   \\ \\  \\\\  \\|",
-                    "                         \\ \\__\\ \\__\\\\ \\______\\\\ \\__\\   \\ \\__\\\\ _\\",
-                    "                           \\|__|\\|__| \\|______| \\|__|    \\|__||__|" };
+    char* logo[] = { "                ________   ___    _________   ________",
+                    "                |\\   __  \\ |\\  \\  |\\___   ___\\|\\   __  \\",
+                    "                 \\ \\  \\|\\  \\\\ \\  \\ \\|___\\  \\_| \\ \\  \\|\\  \\",
+                    "                   \\ \\   __  \\\\ \\  \\    \\ \\  \\   \\ \\   _  _\\",
+                    "                     \\ \\  \\ \\  \\\\ \\  \\____\\ \\  \\   \\ \\  \\\\  \\|",
+                    "                       \\ \\__\\ \\__\\\\ \\______\\\\ \\__\\   \\ \\__\\\\ _\\",
+                    "                         \\|__|\\|__| \\|______| \\|__|    \\|__||__|" };
 
 
     X = 0;
@@ -181,13 +196,3 @@ void check_scroll() {
         print("%d\n", i);
     }
 }
-
-void __main() {
-    init_printer();
-    //print_logo();
-    //print("Hello, world!, %d", 5);
-    check_scroll();
-
-    for (;;);
-}
-
