@@ -1,60 +1,31 @@
+#include "memory.h"
+
 short int* START_ADDRESS = (short int*)0xB8000;
 
 int X;
 int Y;
-
-void _memcpy(short int* from, short int* to, int size);
-
-void _clearcpy(short int* address, int size);
-
-void vga_move_screen();
-
-void check_coord();
-
-void vga_print_char(char symbol);
-
-void vga_print_str(char* str);
-
-void vga_clear_screen();
-
-void init_printer();
-
-void print_number(int number, int base);
-
-void print(char* fmt, ...);
-
-void print_logo();
-
-void check_scroll();
-
-void __main() {
-    init_printer();
-    print_logo();
-    //print("Hello, world!, %d, %%", 5);
-    //check_scroll();
-
-
-    for (;;);
-}
-
-
-void _memcpy(short int* from, short int* to, int size) {
-    for (int i = 0; i < size; i++) {
-        *(to + i) = *(from + i);
-    }
-}
-
-void _clearcpy(short int* address, int size) {
-    for (int i = 0; i < size; i++) {
-        *(address + i) = 0;
-    }
-}
 
 void vga_move_screen() {
     _memcpy(START_ADDRESS + 80, START_ADDRESS, 3920);
     _clearcpy(START_ADDRESS + 3920, 80);
     X = 0;
     Y = 24;
+}
+
+void change_x(int x) {
+    X = x;
+}
+
+int get_x() {
+    return X;
+}
+
+void change_y(int y) {
+    Y = y;
+}
+
+int get_y() {
+    return Y;
 }
 
 void check_coord() {
@@ -75,7 +46,7 @@ void vga_print_char(char symbol) {  // печать символа в позиц
     X++;
 }
 
-void vga_print_str(char* str) {// печать строки, начиная с позиции (x, y)
+void vga_print_str(char* str) {    // печать строки, начиная с позиции (x, y)
     char c;
     int index = 0;
     while (str[index] != '\0') {
@@ -167,32 +138,3 @@ void print(char* fmt, ...) {
     }
 }
 
-
-void print_logo() {
-    char* logo[] = { "                ________   ___    _________   ________",
-                    "                |\\   __  \\ |\\  \\  |\\___   ___\\|\\   __  \\",
-                    "                 \\ \\  \\|\\  \\\\ \\  \\ \\|___\\  \\_| \\ \\  \\|\\  \\",
-                    "                   \\ \\   __  \\\\ \\  \\    \\ \\  \\   \\ \\   _  _\\",
-                    "                     \\ \\  \\ \\  \\\\ \\  \\____\\ \\  \\   \\ \\  \\\\  \\|",
-                    "                       \\ \\__\\ \\__\\\\ \\______\\\\ \\__\\   \\ \\__\\\\ _\\",
-                    "                         \\|__|\\|__| \\|______| \\|__|    \\|__||__|" };
-
-
-    X = 0;
-    Y = 8;
-    for (int i = 0; i < 7; i++) {
-        vga_print_str(logo[i]);
-        X = 0;
-        Y++;
-    }
-}
-
-void check_scroll() {
-    init_printer();
-    for (int i = 0; i < 30; i++) {
-        for (int j = 0; j < i; j++) {
-            print(" ");
-        }
-        print("%d\n", i);
-    }
-}
