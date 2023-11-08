@@ -3,7 +3,7 @@
 typedef unsigned char byte;
 typedef unsigned int u32;
 
-#define NULL (byte*)0
+#define NULL (void*)0
 #define START 0x100000
 #define END 0x400000
 
