@@ -1,3 +1,6 @@
-void _memcpy(short int* from, short int* to, int size);
+typedef unsigned char byte;
+typedef unsigned int u32;
 
-void _clearcpy(short int* address, int size);
+void _memcpy(byte* from, byte* to, u32 size);
+
+void _clearcpy(byte* address, u32 size);

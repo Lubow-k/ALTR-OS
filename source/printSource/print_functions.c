@@ -1,13 +1,14 @@
 #include "memory.h"
 
 short int* START_ADDRESS = (short int*)0xB8000;
+typedef unsigned char byte;
 
 int X;
 int Y;
 
 void vga_move_screen() {
-    _memcpy(START_ADDRESS + 80, START_ADDRESS, 25 * 80 * 2 - 80 *   2);
-    _clearcpy(START_ADDRESS + 80 * 24, 80 * 2);
+    _memcpy((byte*)(START_ADDRESS + 80), (byte*) START_ADDRESS, 25 * 80 * 2 - 80 *   2);
+    _clearcpy((byte*) (START_ADDRESS + 80 * 24), 80 * 2);
     X = 0;
     Y = 24;
 }
