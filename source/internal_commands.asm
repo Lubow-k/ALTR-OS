@@ -4,9 +4,9 @@
 [GLOBAL _LIDT]
 
 _INT:
-    int 1
+    int 0x0
     ret
 
 _LIDT:
-    lidt [EBP + 8] 
+    lidt [ESP + 8] 
     ret

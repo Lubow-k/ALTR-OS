@@ -6,8 +6,8 @@ int X;
 int Y;
 
 void vga_move_screen() {
-    _memcpy(START_ADDRESS + 80, START_ADDRESS, 3920);
-    _clearcpy(START_ADDRESS + 3920, 80);
+    _memcpy(START_ADDRESS + 80, START_ADDRESS, 25 * 80 * 2 - 80 *   2);
+    _clearcpy(START_ADDRESS + 80 * 24, 80 * 2);
     X = 0;
     Y = 24;
 }

@@ -1,7 +1,7 @@
 #define IDT_SIZE 256
 #include "printSource/print_functions.h"
 
-typedef char byte;
+typedef unsigned char byte;
 typedef unsigned short int u16;
 typedef unsigned int u32;
 
@@ -289,10 +289,10 @@ void __main(){
         byte* handler = tramplins[vector]; // UB
         u16 low_16_bits = (u16) handler;
         u16 high_16_bits = (u16) (((u32) handler) >> 16);
-        u16 segment_selector = (u16) 0;
-        u16 flags = 0x8E00; // TODO: Поменять под разные прерывания
-        descriptor local;
+        u16 segment_selector = (u16) vector;  // IDK really
+        u16 flags = 0x8E00;
 
+        descriptor local;
         local.low_16_bits = low_16_bits;
         local.high_16_bits = high_16_bits;
         local.segment_selector = segment_selector;
@@ -313,13 +313,12 @@ void __main(){
     print("Calling int\n"); // Исполнение доходит до сюда, потом начинается бесконечная перезагрузка
     INT();
     print("Reterning from int\n");
-
     for (;;);
 }
 
 static void panic_handler(int vector){
     init_printer();
-    print("unhandled interrupt %d", vector);
+    print("unhandled interrupt %x", vector);
     for (;;);
 }
 

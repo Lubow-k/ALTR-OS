@@ -1,6 +1,6 @@
 #define NULL (void*)0
 
-typedef char byte;
+typedef unsigned char byte;
 typedef unsigned int u32;
 
 
