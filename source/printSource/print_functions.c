@@ -3,8 +3,8 @@
 short int* START_ADDRESS = (short int*)0xB8000;
 typedef unsigned char byte;
 
-int X;
-int Y;
+static int X;
+static int Y;
 
 void vga_move_screen() {
     _memcpy((byte*)(START_ADDRESS + 80), (byte*) START_ADDRESS, 25 * 80 * 2 - 80 *   2);
@@ -29,7 +29,7 @@ int get_y() {
     return Y;
 }
 
-void check_coord() {
+static void check_coord() {
     if (X == 80) {
         Y++;
         X = 0;
@@ -57,7 +57,7 @@ void vga_print_str(char* str) {    // печать строки, начиная 
 }
 
 
-void vga_clear_screen() {  // очистка экрана
+void vga_clear_screen() { 
     short int* start = (short int*)START_ADDRESS;
     for (int i = 0; i < 4000; i++) {
         *((short int*)start) = 0;

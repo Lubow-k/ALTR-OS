@@ -3,41 +3,31 @@
 typedef unsigned char byte;
 typedef unsigned int u32;
 
-#define NULL (void*)0
 #define START 0x100000
 #define END 0x400000
 
 
-byte* current = (byte*) START;
-byte* previous = NULL;
+static byte* current = (byte*) START;
 
 byte* kernel_malloc(u32 size) {
     if (current + size < (byte*) END) {
-            previous = current;
+            byte* previous = current;
             current += size;
             return previous;
     }
-    return NULL;
+    return (byte*)0;   // fix it --> call kernel panic
 }
 
 byte* kernel_calloc(u32 size) {
-    if (current + size < (byte*) END) {
-        _clearcpy(current, size);
-        previous = current;
-        current += size;
-        return previous;
-    }
-    return NULL;
+    byte* new_addr = kernel_malloc(size);
+    _clearcpy(new_addr, size);
+    return new_addr;
 }
 
 byte* kernel_realloc(void* old_addr, u32 new_size) {
-    if (current + new_size < (byte*) END) { 
-        _memcpy(old_addr, current, new_size);
-        previous = current;
-        current += new_size;
-        return previous;
-    }
-    return NULL;
+    byte* new_addr = kernel_malloc(new_size);
+    _memcpy(old_addr, new_addr, new_size);
+    return new_addr;
 }
 
 // void kernel_free(void* addr) {
