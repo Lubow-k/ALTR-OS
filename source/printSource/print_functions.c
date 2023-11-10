@@ -102,26 +102,24 @@ void print_number(int number, int base) {
     }
 }
 
-void print(char* fmt, ...) {
-    int* address = (int*)&fmt;
-    address++;
 
+void inner_print(char* fmt, int* args) {
     while (*fmt != '\0') {
         if (*fmt == '%') {
             fmt++;
             if (*fmt == 'd') {
-                int num = *(int*)address;
+                int num = *(int*)args;
                 print_number(num, 10);
-                address++;
+                args++;
             }
             else if (*fmt == 'x') {
-                int num = *(int*)address;
+                int num = *(int*)args;
                 print_number(num, 16);
-                address++;
+                args++;
             }
             else if (*fmt == 's') {
-                vga_print_str(*(char**)address);
-                address++;
+                vga_print_str(*(char**)args);
+                args++;
             }
             else {
                 vga_print_char(*fmt);
@@ -137,5 +135,11 @@ void print(char* fmt, ...) {
         }
         fmt++;
     }
+}
+
+void print(char* fmt, ...) {
+    int* address = (int*)&fmt;
+    address++;
+    inner_print(fmt, address);
 }
 

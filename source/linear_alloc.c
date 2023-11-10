@@ -1,5 +1,7 @@
 #include "printSource/memory.h"
 
+void kernel_panic(char* fmt, ...);
+
 typedef unsigned char byte;
 typedef unsigned int u32;
 
@@ -15,7 +17,7 @@ byte* kernel_malloc(u32 size) {
             current += size;
             return previous;
     }
-    return (byte*)0;   // fix it --> call kernel panic
+    kernel_panic("Out of memory");
 }
 
 byte* kernel_calloc(u32 size) {

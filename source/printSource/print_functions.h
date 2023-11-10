@@ -20,4 +20,5 @@ int get_x();
 
 int get_y();
 
+void inner_print(char* fmt, int* args);
 

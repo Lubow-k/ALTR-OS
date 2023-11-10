@@ -1,12 +1,17 @@
 [BITS 32]
 
 [GLOBAL _INT]
-[GLOBAL _LIDT]
+[GLOBAL _CLI]
+[GLOBAL _STI]
 
 _INT:
-    int 0x0
+    int 0x22
     ret
 
-_LIDT:
-    lidt [ESP + 8] 
+_CLI:
+    cli
+    ret
+
+_STI:
+    sti
     ret
