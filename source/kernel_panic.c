@@ -3,7 +3,7 @@
 void CLI();
 
 void kernel_panic(char* fmt, ...) {
-    // CLI();
+    CLI();
     init_printer();
     int* address = (int*)&fmt;
     address++;

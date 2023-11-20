@@ -6,8 +6,6 @@ typedef unsigned char byte;
 typedef unsigned short int u16;
 typedef unsigned int u32;
 
-void INT();
-void STI();
 void kernel_panic(char* fmt, ...);
 static void panic_handler();
 static void tramplin_0();
@@ -282,7 +280,7 @@ typedef struct{ // Тут тоже в правильном порядке
 #pragma pack(pop)
 
 
-void __main(){
+void fill_tramplins(){
     void** tramplins;
     tramplins = (void**) kernel_malloc(IDT_SIZE * sizeof(void*));
     tramplins[0] = tramplin_0;
@@ -563,11 +561,6 @@ void __main(){
     local_didt->data = (u32) idt;
     
     asm ("lidt %0" :: "m"(*local_didt));
-
-    INT();
-    // STI();
-    // int a = 1 / 0;
-    for (;;);
 }
 
 static void panic_handler(int vector){
