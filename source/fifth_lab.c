@@ -271,14 +271,14 @@ static void tramplin_FF() { panic_handler(0xff); }
 
 
 #pragma pack(push, 1)
-typedef struct {  // Теперь в правильном порядке 
+typedef struct {
     u16 low_16_bits;
     u16 segment_selector;
     u16 flags;
     u16 high_16_bits;
 } descriptor;
 
-typedef struct{ // Тут тоже в правильном порядке 
+typedef struct{
     u16 size;
     u32 data;
 } didt;
@@ -286,8 +286,8 @@ typedef struct{ // Тут тоже в правильном порядке
 
 
 void fill_tramplins() {
-    void** tramplins;
-    tramplins = (void**) kernel_malloc(IDT_SIZE * sizeof(void*));
+    print("Filing tramplins\n");
+    void* tramplins[IDT_SIZE];
     tramplins[0] = tramplin_0;
     tramplins[1] = tramplin_1;
     tramplins[2] = tramplin_2;
