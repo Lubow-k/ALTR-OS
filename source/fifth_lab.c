@@ -1,6 +1,6 @@
 #define IDT_SIZE 256
 #include "printSource/print_functions.h"
-#include "linear_alloc.h"
+#include "allocator/linear_alloc.h"
 
 typedef unsigned char byte;
 typedef unsigned short int u16;

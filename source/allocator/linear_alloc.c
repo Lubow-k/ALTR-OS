@@ -1,4 +1,4 @@
-#include "printSource/memory.h"
+#include "../printSource/memory.h"
 
 void kernel_panic(char* fmt, ...);
 
