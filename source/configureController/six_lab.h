@@ -1,4 +1,6 @@
 typedef unsigned char byte;
+typedef unsigned short int u16;
+typedef unsigned int u32;
 typedef enum Devices Devices;
 void irq_fill(byte port, byte mask);
 void configure_master_controller();

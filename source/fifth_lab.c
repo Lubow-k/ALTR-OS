@@ -286,7 +286,6 @@ typedef struct{
 
 
 void fill_tramplins() {
-    print("Filing tramplins\n");
     void* tramplins[IDT_SIZE];
     tramplins[0] = tramplin_0;
     tramplins[1] = tramplin_1;
