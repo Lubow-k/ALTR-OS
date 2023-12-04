@@ -43,11 +43,17 @@ D = {"0" : "0",
 for key, val in D.items():
     print()
     if val == "0":
-        print("tramplin_" + str(hex(int(key))))
+        print("_tramplin_" + str(hex(int(key)) + ":"))
         print("    " + "push 0xDEAD")
         print("    " + "push " + str(hex(int(key))))
         print("    " + "jmp collect_context")
     else:
-        print("tramplin_" + str(hex(int(key))))
+        print("_tramplin_" + str(hex(int(key))) + ":")
         print("    " + "push " + str(hex(int(key))))
         print("    " + "jmp collect_context")
+
+for key, _ in D.items():
+    print(f"[GLOBAL _tramplin_{str(hex(int(key)))}]")
+
+for key, _ in D.items():
+    print(f"void tramplin_{str(hex(int(key)))[2:].upper()}();")

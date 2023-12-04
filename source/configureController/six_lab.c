@@ -7,7 +7,7 @@
 #define SLAVE_DATA_PORT 0xA1
 #define TRASH_PORT 0x80
 
-// #define DEBUG
+#define DEBUG
 
 byte inb(u16 port);
 void outb(u16 port, byte data);

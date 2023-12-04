@@ -10,7 +10,7 @@ void __main() {
     configure_master_controller();
     configure_slave_controller();  
 
-    enable(KEYBOARD);    
+    enable(TIMER);    
     STI();
     
     for (;;);

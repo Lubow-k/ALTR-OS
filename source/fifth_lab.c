@@ -2,6 +2,7 @@
 #include "printSource/print_functions.h"
 #include "allocator/linear_alloc.h"
 
+
 typedef unsigned char byte;
 typedef unsigned short int u16;
 typedef unsigned int u32;
@@ -12,38 +13,38 @@ static void panic_handler(int vector){
     kernel_panic("unhandled interrupt %x", vector);
 }
 
-static void tramplin_0() { panic_handler(0x0); }
-static void tramplin_1() { panic_handler(0x1); }
-static void tramplin_2() { panic_handler(0x2); }
-static void tramplin_3() { panic_handler(0x3); }
-static void tramplin_4() { panic_handler(0x4); }
-static void tramplin_5() { panic_handler(0x5); }
-static void tramplin_6() { panic_handler(0x6); }
-static void tramplin_7() { panic_handler(0x7); }
-static void tramplin_8() { panic_handler(0x8); }
-static void tramplin_9() { panic_handler(0x9); }
-static void tramplin_A() { panic_handler(0xa); }
-static void tramplin_B() { panic_handler(0xb); }
-static void tramplin_C() { panic_handler(0xc); }
-static void tramplin_D() { panic_handler(0xd); }
-static void tramplin_E() { panic_handler(0xe); }
-static void tramplin_F() { panic_handler(0xf); }
-static void tramplin_10() { panic_handler(0x10); }
-static void tramplin_11() { panic_handler(0x11); }
-static void tramplin_12() { panic_handler(0x12); }
-static void tramplin_13() { panic_handler(0x13); }
-static void tramplin_14() { panic_handler(0x14); }
-static void tramplin_15() { panic_handler(0x15); }
-static void tramplin_16() { panic_handler(0x16); }
-static void tramplin_17() { panic_handler(0x17); }
-static void tramplin_18() { panic_handler(0x18); }
-static void tramplin_19() { panic_handler(0x19); }
-static void tramplin_1A() { panic_handler(0x1a); }
-static void tramplin_1B() { panic_handler(0x1b); }
-static void tramplin_1C() { panic_handler(0x1c); }
-static void tramplin_1D() { panic_handler(0x1d); }
-static void tramplin_1E() { panic_handler(0x1e); }
-static void tramplin_1F() { panic_handler(0x1f); }
+void tramplin_0();
+void tramplin_1();
+void tramplin_2();
+void tramplin_3();
+void tramplin_4();
+void tramplin_5();
+void tramplin_6();
+void tramplin_7();
+void tramplin_8();
+void tramplin_9();
+void tramplin_A();
+void tramplin_B();
+void tramplin_C();
+void tramplin_D();
+void tramplin_E();
+void tramplin_F();
+void tramplin_10();
+void tramplin_11();
+void tramplin_12();
+void tramplin_13();
+void tramplin_14();
+void tramplin_15();
+void tramplin_16();
+void tramplin_17();
+void tramplin_18();
+void tramplin_19();
+void tramplin_1A();
+void tramplin_1B();
+void tramplin_1C();
+void tramplin_1D();
+void tramplin_1E();
+void tramplin_1F();
 static void tramplin_20() { panic_handler(0x20); }
 static void tramplin_21() { panic_handler(0x21); }
 static void tramplin_22() { panic_handler(0x22); }
