@@ -2,8 +2,10 @@
 #include "printSource/print_functions.h"
 void fill_tramplins();
 void STI();
+void recovery_ctx();
 
 void __main() {
+
     init_printer();
     fill_tramplins();
     
@@ -13,7 +15,10 @@ void __main() {
     enable(TIMER);    
     STI();
     
-    for (;;);
+    print("In kernel entry\n");
+    for (;;){
+        print("In cycle");
+    };
 
 }
 

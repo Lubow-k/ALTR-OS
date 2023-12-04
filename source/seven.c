@@ -4,6 +4,7 @@ typedef unsigned char byte;
 typedef unsigned short int u16;
 typedef unsigned int u32;
 
+void recovery_ctx();
 
 #pragma pack(push, 1)
 typedef struct {
@@ -35,7 +36,6 @@ typedef struct {
 } context;
 #pragma pack(pop)
 
-void timer_interrupt();
 
 void print_context(context* ctx){
     print("uhandled interrupt %x, intrrupted process context: \n", ctx->vector);
@@ -43,7 +43,7 @@ void print_context(context* ctx){
     print("ESP = %x EBP = %x ESI = %x EDI = %x\n", ctx->esp, ctx->ebp, ctx->esi, ctx->edi);
     print("DS = %x ES = %x FS = %x GS = %x\n", ctx->ds, ctx->es, ctx->fs, ctx->gs);
     print("CS = %x SS = %x EIP = %x\n", ctx->cs, ctx->ss, ctx->eip);
-    print("EFLAGS = %x", ctx->eflags);
+    print("EFLAGS = %x\n", ctx->eflags);
     print("error code = %x", ctx->error_code);
 }
 
@@ -51,21 +51,24 @@ void CLI();
 
 void panic(context* ctx) {
     CLI();
-    init_printer();
     print("PANIC!\n");
     print_context(ctx);
     for (;;);
 }
 
+void timer_handler(context* ctx) {
+    print("In timer handler\n");
+    recovery_ctx(*ctx);
+}
 
-void interupt_handler(context* ctx){
-    switch (ctx->vector) {
+void interrupt_handler(context ctx){
+    switch (ctx.vector) {
     case 0x20:
-        timer_interrupt(ctx); 
+        timer_handler(&ctx); 
         break;
     
     default:
-        panic(ctx);
+        panic(&ctx);
         break;
     }
 }
