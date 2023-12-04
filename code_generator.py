@@ -43,9 +43,11 @@ D = {"0" : "0",
 for key, val in D.items():
     print()
     if val == "0":
-        print("tramplin_" + str(hex(int(key))).upper())
+        print("tramplin_" + str(hex(int(key))))
         print("    " + "push 0xDEAD")
-        print("    " + "push " + str(hex(int(key))).upper())
+        print("    " + "push " + str(hex(int(key))))
+        print("    " + "jmp collect_context")
     else:
-        print("tramplin_" + str(hex(int(key))).upper())
-        print("    " + "push " + str(hex(int(key))).upper())
+        print("tramplin_" + str(hex(int(key))))
+        print("    " + "push " + str(hex(int(key))))
+        print("    " + "jmp collect_context")
