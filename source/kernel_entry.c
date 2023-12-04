@@ -8,10 +8,10 @@ void __main() {
     fill_tramplins();
     
     configure_master_controller();
-    configure_slave_controller();
+    configure_slave_controller();  
 
+    enable(KEYBOARD);    
     STI();
-    enable(KEYBOARD);
     
     for (;;);
 
