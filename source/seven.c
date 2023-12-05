@@ -58,7 +58,8 @@ void panic(context* ctx) {
 
 void timer_handler(context* ctx) {
     print("In timer handler\n");
-    recovery_ctx(*ctx);
+    return;
+    // recovery_ctx(*ctx);
 }
 
 void interrupt_handler(context ctx){
@@ -66,7 +67,7 @@ void interrupt_handler(context ctx){
     case 0x20:
         timer_handler(&ctx); 
         break;
-    
+        
     default:
         panic(&ctx);
         break;

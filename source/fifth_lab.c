@@ -46,7 +46,7 @@ void tramplin_1D();
 void tramplin_1E();
 void tramplin_1F();
 void tramplin_20();
-static void tramplin_21() { panic_handler(0x21); }
+void tramplin_21();
 static void tramplin_22() { panic_handler(0x22); }
 static void tramplin_23() { panic_handler(0x23); }
 static void tramplin_24() { panic_handler(0x24); }

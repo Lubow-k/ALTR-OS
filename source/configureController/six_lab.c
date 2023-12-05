@@ -19,6 +19,7 @@ static byte operation(Devices device, int enable_flag) {
         port = (byte) MASTER_DATA_PORT;
     } else {
         port = (byte) SLAVE_DATA_PORT;
+        device -= 8;
     } 
 
     byte mask = inb(port);

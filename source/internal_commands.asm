@@ -7,7 +7,7 @@
 [GLOBAL _outb]
 
 _INT:
-    int 0x42
+    int 0x20
     ret
 
 _CLI:

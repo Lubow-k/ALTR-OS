@@ -2,6 +2,7 @@
 #include "printSource/print_functions.h"
 void fill_tramplins();
 void STI();
+void INT();
 void recovery_ctx();
 
 void __main() {
@@ -12,12 +13,12 @@ void __main() {
     configure_master_controller();
     configure_slave_controller();  
 
-    enable(TIMER);    
+    enable(KEYBOARD);    
     STI();
     
     print("In kernel entry\n");
     for (;;){
-        print("In cycle");
+        print("RR");
     };
 
 }

@@ -33,16 +33,16 @@
 [GLOBAL _tramplin_1E]
 [GLOBAL _tramplin_1F]
 [GLOBAL _tramplin_20]
+[GLOBAL _tramplin_21]
 [GLOBAL _recovery_ctx]
 
 [EXTERN _interrupt_handler]
 
 _recovery_ctx:     ;timer
-    ; mov dx, 0x20
-    ; mov al, 0x20
-    ; out dx, al
+    mov dx, 0x20
+    mov al, 0x20
+    out dx, al
     popa
-    ; add esp, 4
     pop gs
     pop fs
     pop es
@@ -206,6 +206,11 @@ _tramplin_20:
     push 0x20
     jmp collect_context
 
+_tramplin_21:
+    push 0xDEAD
+    push 0x21
+    jmp collect_context
+
 collect_context:
     push ds
     push es
@@ -213,4 +218,6 @@ collect_context:
     push gs
     pusha
     call _interrupt_handler
+    jmp _recovery_ctx
+    
     
