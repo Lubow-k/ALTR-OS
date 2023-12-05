@@ -5,6 +5,7 @@ typedef unsigned short int u16;
 typedef unsigned int u32;
 
 void recovery_ctx();
+void CLI();
 
 #pragma pack(push, 1)
 typedef struct {
@@ -39,15 +40,13 @@ typedef struct {
 
 void print_context(context* ctx){
     print("uhandled interrupt %x, intrrupted process context: \n", ctx->vector);
-    print("EAX = %x ECX = %x EDX = %x EBX = %x\n", ctx->eax, ctx->ecx, ctx->ebx);
+    print("EAX = %x ECX = %x EDX = %x EBX = %x\n", ctx->eax, ctx->ecx, ctx->edx, ctx->ebx);
     print("ESP = %x EBP = %x ESI = %x EDI = %x\n", ctx->esp, ctx->ebp, ctx->esi, ctx->edi);
     print("DS = %x ES = %x FS = %x GS = %x\n", ctx->ds, ctx->es, ctx->fs, ctx->gs);
     print("CS = %x SS = %x EIP = %x\n", ctx->cs, ctx->ss, ctx->eip);
     print("EFLAGS = %x\n", ctx->eflags);
     print("error code = %x", ctx->error_code);
 }
-
-void CLI();
 
 void panic(context* ctx) {
     CLI();
@@ -56,10 +55,11 @@ void panic(context* ctx) {
     for (;;);
 }
 
+int i;
+
 void timer_handler(context* ctx) {
-    print("In timer handler\n");
+    print("%d ", i++);
     return;
-    // recovery_ctx(*ctx);
 }
 
 void interrupt_handler(context ctx){

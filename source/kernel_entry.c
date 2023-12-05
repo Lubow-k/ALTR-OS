@@ -14,13 +14,14 @@ void __main() {
     configure_slave_controller();  
 
     print("In kernel entry\n");
+
     experiment();
 
-    // enable(KEYBOARD);    
+    // enable(KEYBOARD);
+
+    // enable(TIMER);    
     // STI();
-    
-    for (;;){
-        // print("RR");
-    };
+
+    for (;;);
 
 }

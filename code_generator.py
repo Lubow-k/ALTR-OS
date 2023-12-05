@@ -40,20 +40,31 @@ D = {"0" : "0",
      "31" : "0",
      }
 
-for key, val in D.items():
-    print()
-    if val == "0":
-        print(f"_tramplin_{str(hex(int(key)))[2:].upper()}" + ":")
-        print("    " + "push 0xDEAD")
-        print("    " + "push " + str(hex(int(key))))
-        print("    " + "jmp collect_context")
-    else:
-        print(f"_tramplin_{str(hex(int(key)))[2:].upper()}" + ":")
-        print("    " + "push " + str(hex(int(key))))
-        print("    " + "jmp collect_context")
+# for key, val in D.items():
+#     print()
+#     if val == "0":
+#         print(f"_tramplin_{str(hex(int(key)))[2:].upper()}" + ":")
+#         print("    " + "push 0xDEAD")
+#         print("    " + "push " + str(hex(int(key))))
+#         print("    " + "jmp collect_context")
+#     else:
+#         print(f"_tramplin_{str(hex(int(key)))[2:].upper()}" + ":")
+#         print("    " + "push " + str(hex(int(key))))
+#         print("    " + "jmp collect_context")
+with open("seven.txt", "w") as file:
+    for i in range(33, 256):
+        # print(f"_tramplin_{str(hex(i))[2:].upper()}" + ":", file=file)
+        # print("    " + "push 0xDEAD", file=file)
+        # print("    " + "push " + str(hex(int(i))), file=file)
+        # print("    " + "jmp collect_context", file=file)
+        # print("", file=file)
 
-for key, _ in D.items():
-    print(f"[GLOBAL _tramplin_{str(hex(int(key))[2:].upper())}]")
+        # print(f"[GLOBAL _tramplin_{str(hex(i))[2:].upper()}]", file=file)
 
-for key, _ in D.items():
-    print(f"void tramplin_{str(hex(int(key)))[2:].upper()}();")
+        print(f"void tramplin_{str(hex(i))[2:].upper()}();", file=file)
+
+# for key, _ in D.items():
+#     print(f"[GLOBAL _tramplin_{str(hex(int(key))[2:].upper())}]")
+
+# for key, _ in D.items():
+#     print(f"void tramplin_{str(hex(int(key)))[2:].upper()}();")

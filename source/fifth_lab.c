@@ -47,228 +47,228 @@ void tramplin_1E();
 void tramplin_1F();
 void tramplin_20();
 void tramplin_21();
-static void tramplin_22() { panic_handler(0x22); }
-static void tramplin_23() { panic_handler(0x23); }
-static void tramplin_24() { panic_handler(0x24); }
-static void tramplin_25() { panic_handler(0x25); }
-static void tramplin_26() { panic_handler(0x26); }
-static void tramplin_27() { panic_handler(0x27); }
-static void tramplin_28() { panic_handler(0x28); }
-static void tramplin_29() { panic_handler(0x29); }
-static void tramplin_2A() { panic_handler(0x2a); }
-static void tramplin_2B() { panic_handler(0x2b); }
-static void tramplin_2C() { panic_handler(0x2c); }
-static void tramplin_2D() { panic_handler(0x2d); }
-static void tramplin_2E() { panic_handler(0x2e); }
-static void tramplin_2F() { panic_handler(0x2f); }
-static void tramplin_30() { panic_handler(0x30); }
-static void tramplin_31() { panic_handler(0x31); }
-static void tramplin_32() { panic_handler(0x32); }
-static void tramplin_33() { panic_handler(0x33); }
-static void tramplin_34() { panic_handler(0x34); }
-static void tramplin_35() { panic_handler(0x35); }
-static void tramplin_36() { panic_handler(0x36); }
-static void tramplin_37() { panic_handler(0x37); }
-static void tramplin_38() { panic_handler(0x38); }
-static void tramplin_39() { panic_handler(0x39); }
-static void tramplin_3A() { panic_handler(0x3a); }
-static void tramplin_3B() { panic_handler(0x3b); }
-static void tramplin_3C() { panic_handler(0x3c); }
-static void tramplin_3D() { panic_handler(0x3d); }
-static void tramplin_3E() { panic_handler(0x3e); }
-static void tramplin_3F() { panic_handler(0x3f); }
-static void tramplin_40() { panic_handler(0x40); }
-static void tramplin_41() { panic_handler(0x41); }
-static void tramplin_42() { panic_handler(0x42); }
-static void tramplin_43() { panic_handler(0x43); }
-static void tramplin_44() { panic_handler(0x44); }
-static void tramplin_45() { panic_handler(0x45); }
-static void tramplin_46() { panic_handler(0x46); }
-static void tramplin_47() { panic_handler(0x47); }
-static void tramplin_48() { panic_handler(0x48); }
-static void tramplin_49() { panic_handler(0x49); }
-static void tramplin_4A() { panic_handler(0x4a); }
-static void tramplin_4B() { panic_handler(0x4b); }
-static void tramplin_4C() { panic_handler(0x4c); }
-static void tramplin_4D() { panic_handler(0x4d); }
-static void tramplin_4E() { panic_handler(0x4e); }
-static void tramplin_4F() { panic_handler(0x4f); }
-static void tramplin_50() { panic_handler(0x50); }
-static void tramplin_51() { panic_handler(0x51); }
-static void tramplin_52() { panic_handler(0x52); }
-static void tramplin_53() { panic_handler(0x53); }
-static void tramplin_54() { panic_handler(0x54); }
-static void tramplin_55() { panic_handler(0x55); }
-static void tramplin_56() { panic_handler(0x56); }
-static void tramplin_57() { panic_handler(0x57); }
-static void tramplin_58() { panic_handler(0x58); }
-static void tramplin_59() { panic_handler(0x59); }
-static void tramplin_5A() { panic_handler(0x5a); }
-static void tramplin_5B() { panic_handler(0x5b); }
-static void tramplin_5C() { panic_handler(0x5c); }
-static void tramplin_5D() { panic_handler(0x5d); }
-static void tramplin_5E() { panic_handler(0x5e); }
-static void tramplin_5F() { panic_handler(0x5f); }
-static void tramplin_60() { panic_handler(0x60); }
-static void tramplin_61() { panic_handler(0x61); }
-static void tramplin_62() { panic_handler(0x62); }
-static void tramplin_63() { panic_handler(0x63); }
-static void tramplin_64() { panic_handler(0x64); }
-static void tramplin_65() { panic_handler(0x65); }
-static void tramplin_66() { panic_handler(0x66); }
-static void tramplin_67() { panic_handler(0x67); }
-static void tramplin_68() { panic_handler(0x68); }
-static void tramplin_69() { panic_handler(0x69); }
-static void tramplin_6A() { panic_handler(0x6a); }
-static void tramplin_6B() { panic_handler(0x6b); }
-static void tramplin_6C() { panic_handler(0x6c); }
-static void tramplin_6D() { panic_handler(0x6d); }
-static void tramplin_6E() { panic_handler(0x6e); }
-static void tramplin_6F() { panic_handler(0x6f); }
-static void tramplin_70() { panic_handler(0x70); }
-static void tramplin_71() { panic_handler(0x71); }
-static void tramplin_72() { panic_handler(0x72); }
-static void tramplin_73() { panic_handler(0x73); }
-static void tramplin_74() { panic_handler(0x74); }
-static void tramplin_75() { panic_handler(0x75); }
-static void tramplin_76() { panic_handler(0x76); }
-static void tramplin_77() { panic_handler(0x77); }
-static void tramplin_78() { panic_handler(0x78); }
-static void tramplin_79() { panic_handler(0x79); }
-static void tramplin_7A() { panic_handler(0x7a); }
-static void tramplin_7B() { panic_handler(0x7b); }
-static void tramplin_7C() { panic_handler(0x7c); }
-static void tramplin_7D() { panic_handler(0x7d); }
-static void tramplin_7E() { panic_handler(0x7e); }
-static void tramplin_7F() { panic_handler(0x7f); }
-static void tramplin_80() { panic_handler(0x80); }
-static void tramplin_81() { panic_handler(0x81); }
-static void tramplin_82() { panic_handler(0x82); }
-static void tramplin_83() { panic_handler(0x83); }
-static void tramplin_84() { panic_handler(0x84); }
-static void tramplin_85() { panic_handler(0x85); }
-static void tramplin_86() { panic_handler(0x86); }
-static void tramplin_87() { panic_handler(0x87); }
-static void tramplin_88() { panic_handler(0x88); }
-static void tramplin_89() { panic_handler(0x89); }
-static void tramplin_8A() { panic_handler(0x8a); }
-static void tramplin_8B() { panic_handler(0x8b); }
-static void tramplin_8C() { panic_handler(0x8c); }
-static void tramplin_8D() { panic_handler(0x8d); }
-static void tramplin_8E() { panic_handler(0x8e); }
-static void tramplin_8F() { panic_handler(0x8f); }
-static void tramplin_90() { panic_handler(0x90); }
-static void tramplin_91() { panic_handler(0x91); }
-static void tramplin_92() { panic_handler(0x92); }
-static void tramplin_93() { panic_handler(0x93); }
-static void tramplin_94() { panic_handler(0x94); }
-static void tramplin_95() { panic_handler(0x95); }
-static void tramplin_96() { panic_handler(0x96); }
-static void tramplin_97() { panic_handler(0x97); }
-static void tramplin_98() { panic_handler(0x98); }
-static void tramplin_99() { panic_handler(0x99); }
-static void tramplin_9A() { panic_handler(0x9a); }
-static void tramplin_9B() { panic_handler(0x9b); }
-static void tramplin_9C() { panic_handler(0x9c); }
-static void tramplin_9D() { panic_handler(0x9d); }
-static void tramplin_9E() { panic_handler(0x9e); }
-static void tramplin_9F() { panic_handler(0x9f); }
-static void tramplin_A0() { panic_handler(0xa0); }
-static void tramplin_A1() { panic_handler(0xa1); }
-static void tramplin_A2() { panic_handler(0xa2); }
-static void tramplin_A3() { panic_handler(0xa3); }
-static void tramplin_A4() { panic_handler(0xa4); }
-static void tramplin_A5() { panic_handler(0xa5); }
-static void tramplin_A6() { panic_handler(0xa6); }
-static void tramplin_A7() { panic_handler(0xa7); }
-static void tramplin_A8() { panic_handler(0xa8); }
-static void tramplin_A9() { panic_handler(0xa9); }
-static void tramplin_AA() { panic_handler(0xaa); }
-static void tramplin_AB() { panic_handler(0xab); }
-static void tramplin_AC() { panic_handler(0xac); }
-static void tramplin_AD() { panic_handler(0xad); }
-static void tramplin_AE() { panic_handler(0xae); }
-static void tramplin_AF() { panic_handler(0xaf); }
-static void tramplin_B0() { panic_handler(0xb0); }
-static void tramplin_B1() { panic_handler(0xb1); }
-static void tramplin_B2() { panic_handler(0xb2); }
-static void tramplin_B3() { panic_handler(0xb3); }
-static void tramplin_B4() { panic_handler(0xb4); }
-static void tramplin_B5() { panic_handler(0xb5); }
-static void tramplin_B6() { panic_handler(0xb6); }
-static void tramplin_B7() { panic_handler(0xb7); }
-static void tramplin_B8() { panic_handler(0xb8); }
-static void tramplin_B9() { panic_handler(0xb9); }
-static void tramplin_BA() { panic_handler(0xba); }
-static void tramplin_BB() { panic_handler(0xbb); }
-static void tramplin_BC() { panic_handler(0xbc); }
-static void tramplin_BD() { panic_handler(0xbd); }
-static void tramplin_BE() { panic_handler(0xbe); }
-static void tramplin_BF() { panic_handler(0xbf); }
-static void tramplin_C0() { panic_handler(0xc0); }
-static void tramplin_C1() { panic_handler(0xc1); }
-static void tramplin_C2() { panic_handler(0xc2); }
-static void tramplin_C3() { panic_handler(0xc3); }
-static void tramplin_C4() { panic_handler(0xc4); }
-static void tramplin_C5() { panic_handler(0xc5); }
-static void tramplin_C6() { panic_handler(0xc6); }
-static void tramplin_C7() { panic_handler(0xc7); }
-static void tramplin_C8() { panic_handler(0xc8); }
-static void tramplin_C9() { panic_handler(0xc9); }
-static void tramplin_CA() { panic_handler(0xca); }
-static void tramplin_CB() { panic_handler(0xcb); }
-static void tramplin_CC() { panic_handler(0xcc); }
-static void tramplin_CD() { panic_handler(0xcd); }
-static void tramplin_CE() { panic_handler(0xce); }
-static void tramplin_CF() { panic_handler(0xcf); }
-static void tramplin_D0() { panic_handler(0xd0); }
-static void tramplin_D1() { panic_handler(0xd1); }
-static void tramplin_D2() { panic_handler(0xd2); }
-static void tramplin_D3() { panic_handler(0xd3); }
-static void tramplin_D4() { panic_handler(0xd4); }
-static void tramplin_D5() { panic_handler(0xd5); }
-static void tramplin_D6() { panic_handler(0xd6); }
-static void tramplin_D7() { panic_handler(0xd7); }
-static void tramplin_D8() { panic_handler(0xd8); }
-static void tramplin_D9() { panic_handler(0xd9); }
-static void tramplin_DA() { panic_handler(0xda); }
-static void tramplin_DB() { panic_handler(0xdb); }
-static void tramplin_DC() { panic_handler(0xdc); }
-static void tramplin_DD() { panic_handler(0xdd); }
-static void tramplin_DE() { panic_handler(0xde); }
-static void tramplin_DF() { panic_handler(0xdf); }
-static void tramplin_E0() { panic_handler(0xe0); }
-static void tramplin_E1() { panic_handler(0xe1); }
-static void tramplin_E2() { panic_handler(0xe2); }
-static void tramplin_E3() { panic_handler(0xe3); }
-static void tramplin_E4() { panic_handler(0xe4); }
-static void tramplin_E5() { panic_handler(0xe5); }
-static void tramplin_E6() { panic_handler(0xe6); }
-static void tramplin_E7() { panic_handler(0xe7); }
-static void tramplin_E8() { panic_handler(0xe8); }
-static void tramplin_E9() { panic_handler(0xe9); }
-static void tramplin_EA() { panic_handler(0xea); }
-static void tramplin_EB() { panic_handler(0xeb); }
-static void tramplin_EC() { panic_handler(0xec); }
-static void tramplin_ED() { panic_handler(0xed); }
-static void tramplin_EE() { panic_handler(0xee); }
-static void tramplin_EF() { panic_handler(0xef); }
-static void tramplin_F0() { panic_handler(0xf0); }
-static void tramplin_F1() { panic_handler(0xf1); }
-static void tramplin_F2() { panic_handler(0xf2); }
-static void tramplin_F3() { panic_handler(0xf3); }
-static void tramplin_F4() { panic_handler(0xf4); }
-static void tramplin_F5() { panic_handler(0xf5); }
-static void tramplin_F6() { panic_handler(0xf6); }
-static void tramplin_F7() { panic_handler(0xf7); }
-static void tramplin_F8() { panic_handler(0xf8); }
-static void tramplin_F9() { panic_handler(0xf9); }
-static void tramplin_FA() { panic_handler(0xfa); }
-static void tramplin_FB() { panic_handler(0xfb); }
-static void tramplin_FC() { panic_handler(0xfc); }
-static void tramplin_FD() { panic_handler(0xfd); }
-static void tramplin_FE() { panic_handler(0xfe); }
-static void tramplin_FF() { panic_handler(0xff); }
+void tramplin_22();
+void tramplin_23();
+void tramplin_24();
+void tramplin_25();
+void tramplin_26();
+void tramplin_27();
+void tramplin_28();
+void tramplin_29();
+void tramplin_2A();
+void tramplin_2B();
+void tramplin_2C();
+void tramplin_2D();
+void tramplin_2E();
+void tramplin_2F();
+void tramplin_30();
+void tramplin_31();
+void tramplin_32();
+void tramplin_33();
+void tramplin_34();
+void tramplin_35();
+void tramplin_36();
+void tramplin_37();
+void tramplin_38();
+void tramplin_39();
+void tramplin_3A();
+void tramplin_3B();
+void tramplin_3C();
+void tramplin_3D();
+void tramplin_3E();
+void tramplin_3F();
+void tramplin_40();
+void tramplin_41();
+void tramplin_42();
+void tramplin_43();
+void tramplin_44();
+void tramplin_45();
+void tramplin_46();
+void tramplin_47();
+void tramplin_48();
+void tramplin_49();
+void tramplin_4A();
+void tramplin_4B();
+void tramplin_4C();
+void tramplin_4D();
+void tramplin_4E();
+void tramplin_4F();
+void tramplin_50();
+void tramplin_51();
+void tramplin_52();
+void tramplin_53();
+void tramplin_54();
+void tramplin_55();
+void tramplin_56();
+void tramplin_57();
+void tramplin_58();
+void tramplin_59();
+void tramplin_5A();
+void tramplin_5B();
+void tramplin_5C();
+void tramplin_5D();
+void tramplin_5E();
+void tramplin_5F();
+void tramplin_60();
+void tramplin_61();
+void tramplin_62();
+void tramplin_63();
+void tramplin_64();
+void tramplin_65();
+void tramplin_66();
+void tramplin_67();
+void tramplin_68();
+void tramplin_69();
+void tramplin_6A();
+void tramplin_6B();
+void tramplin_6C();
+void tramplin_6D();
+void tramplin_6E();
+void tramplin_6F();
+void tramplin_70();
+void tramplin_71();
+void tramplin_72();
+void tramplin_73();
+void tramplin_74();
+void tramplin_75();
+void tramplin_76();
+void tramplin_77();
+void tramplin_78();
+void tramplin_79();
+void tramplin_7A();
+void tramplin_7B();
+void tramplin_7C();
+void tramplin_7D();
+void tramplin_7E();
+void tramplin_7F();
+void tramplin_80();
+void tramplin_81();
+void tramplin_82();
+void tramplin_83();
+void tramplin_84();
+void tramplin_85();
+void tramplin_86();
+void tramplin_87();
+void tramplin_88();
+void tramplin_89();
+void tramplin_8A();
+void tramplin_8B();
+void tramplin_8C();
+void tramplin_8D();
+void tramplin_8E();
+void tramplin_8F();
+void tramplin_90();
+void tramplin_91();
+void tramplin_92();
+void tramplin_93();
+void tramplin_94();
+void tramplin_95();
+void tramplin_96();
+void tramplin_97();
+void tramplin_98();
+void tramplin_99();
+void tramplin_9A();
+void tramplin_9B();
+void tramplin_9C();
+void tramplin_9D();
+void tramplin_9E();
+void tramplin_9F();
+void tramplin_A0();
+void tramplin_A1();
+void tramplin_A2();
+void tramplin_A3();
+void tramplin_A4();
+void tramplin_A5();
+void tramplin_A6();
+void tramplin_A7();
+void tramplin_A8();
+void tramplin_A9();
+void tramplin_AA();
+void tramplin_AB();
+void tramplin_AC();
+void tramplin_AD();
+void tramplin_AE();
+void tramplin_AF();
+void tramplin_B0();
+void tramplin_B1();
+void tramplin_B2();
+void tramplin_B3();
+void tramplin_B4();
+void tramplin_B5();
+void tramplin_B6();
+void tramplin_B7();
+void tramplin_B8();
+void tramplin_B9();
+void tramplin_BA();
+void tramplin_BB();
+void tramplin_BC();
+void tramplin_BD();
+void tramplin_BE();
+void tramplin_BF();
+void tramplin_C0();
+void tramplin_C1();
+void tramplin_C2();
+void tramplin_C3();
+void tramplin_C4();
+void tramplin_C5();
+void tramplin_C6();
+void tramplin_C7();
+void tramplin_C8();
+void tramplin_C9();
+void tramplin_CA();
+void tramplin_CB();
+void tramplin_CC();
+void tramplin_CD();
+void tramplin_CE();
+void tramplin_CF();
+void tramplin_D0();
+void tramplin_D1();
+void tramplin_D2();
+void tramplin_D3();
+void tramplin_D4();
+void tramplin_D5();
+void tramplin_D6();
+void tramplin_D7();
+void tramplin_D8();
+void tramplin_D9();
+void tramplin_DA();
+void tramplin_DB();
+void tramplin_DC();
+void tramplin_DD();
+void tramplin_DE();
+void tramplin_DF();
+void tramplin_E0();
+void tramplin_E1();
+void tramplin_E2();
+void tramplin_E3();
+void tramplin_E4();
+void tramplin_E5();
+void tramplin_E6();
+void tramplin_E7();
+void tramplin_E8();
+void tramplin_E9();
+void tramplin_EA();
+void tramplin_EB();
+void tramplin_EC();
+void tramplin_ED();
+void tramplin_EE();
+void tramplin_EF();
+void tramplin_F0();
+void tramplin_F1();
+void tramplin_F2();
+void tramplin_F3();
+void tramplin_F4();
+void tramplin_F5();
+void tramplin_F6();
+void tramplin_F7();
+void tramplin_F8();
+void tramplin_F9();
+void tramplin_FA();
+void tramplin_FB();
+void tramplin_FC();
+void tramplin_FD();
+void tramplin_FE();
+void tramplin_FF();
 
 
 #pragma pack(push, 1)
