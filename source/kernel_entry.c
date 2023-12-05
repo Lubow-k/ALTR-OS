@@ -3,7 +3,7 @@
 void fill_tramplins();
 void STI();
 void INT();
-void recovery_ctx();
+void experiment();
 
 void __main() {
 
@@ -13,13 +13,14 @@ void __main() {
     configure_master_controller();
     configure_slave_controller();  
 
-    enable(KEYBOARD);    
-    STI();
-    
     print("In kernel entry\n");
+    experiment();
+
+    // enable(KEYBOARD);    
+    // STI();
+    
     for (;;){
-        print("RR");
+        // print("RR");
     };
 
 }
-
