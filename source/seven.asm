@@ -282,7 +282,10 @@ collect_context:
     push gs
     pusha
 
-    ; ds and es 
+    ; ds and es
+    mov eax, 0x10  ; aka 16 (data segment)
+    mov ds, eax
+    mov es, eax
 
     call _interrupt_handler
     jmp _recovery_ctx

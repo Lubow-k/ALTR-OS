@@ -271,6 +271,7 @@ void tramplin_FE();
 void tramplin_FF();
 
 
+
 #pragma pack(push, 1)
 typedef struct {
     u16 low_16_bits;
@@ -284,6 +285,22 @@ typedef struct{
     u32 data;
 } didt;
 #pragma pack(pop)
+
+void fill_gate_types(descriptor* idt, void* tramplins, int start_vector, int last_vector, u16 flag) {
+
+    for (int vector = start_vector; vector < last_vector; vector++){
+            byte* handler = tramplins[vector];
+            u16 low_16_bits = (u16) handler;
+            u16 high_16_bits = (u16) (((u32) handler) >> 16);
+            u16 segment_selector = (u16) 8;
+            u16 flags = flag;
+
+            idt[vector].low_16_bits = low_16_bits;
+            idt[vector].high_16_bits = high_16_bits;
+            idt[vector].segment_selector = segment_selector;
+            idt[vector].flags = flags;
+    }
+}
 
 
 void fill_tramplins() {
@@ -548,16 +565,24 @@ void fill_tramplins() {
     descriptor* idt;
     idt = (descriptor*) kernel_malloc(IDT_SIZE * sizeof(descriptor));
 
+//    fill_gate_types(idt, tramplins, 0, 32, 0x8E00);          // interrupts
+//    fill_gate_types(idt, tramplins, 32, IDT_SIZE, 0x8F00);   // traps
+
     for (int vector = 0; vector < IDT_SIZE; vector++){
-        byte* handler = tramplins[vector]; 
+        byte* handler = tramplins[vector];
         u16 low_16_bits = (u16) handler;
         u16 high_16_bits = (u16) (((u32) handler) >> 16);
-        u16 segment_selector = (u16) 8;      
-        u16 flags = 0x8F00;
+        u16 segment_selector = (u16) 8;
+        u16 flags = 0x8F00;             // traps
 
         idt[vector].low_16_bits = low_16_bits;
         idt[vector].high_16_bits = high_16_bits;
         idt[vector].segment_selector = segment_selector;
+        idt[vector].flags = flags;
+    }
+
+    for (int vector = 0; vector < 32; vector++){
+        u16 flags = 0x8E00;            // interrupts
         idt[vector].flags = flags;
     }
 
