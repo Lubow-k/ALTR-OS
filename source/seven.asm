@@ -258,7 +258,7 @@
 [GLOBAL _tramplin_FF]
 
 [GLOBAL _experiment]
-[GLOBAL _recovery_ctx]
+[GLOBAL _recovery_ctx] ; this symbol should not be public (you are not supposed to call it from C code)
 
 [EXTERN _interrupt_handler]
 
@@ -288,7 +288,7 @@ collect_context:
     mov es, eax
 
     call _interrupt_handler
-    jmp _recovery_ctx
+    jmp _recovery_ctx ; just inline _recovery_ctx
 
 _experiment:
     mov eax, 1

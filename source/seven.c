@@ -4,7 +4,7 @@ typedef unsigned char byte;
 typedef unsigned short int u16;
 typedef unsigned int u32;
 
-void recovery_ctx();
+void recovery_ctx(); // unused
 void CLI();
 
 #pragma pack(push, 1)
