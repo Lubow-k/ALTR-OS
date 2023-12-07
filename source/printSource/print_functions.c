@@ -102,8 +102,9 @@ void print_number(int number, int base) {
     }
 }
 
-
-void inner_print(char* fmt, int* args) {
+void print(char* fmt, ...) {
+    int* args = (int*)&fmt;
+    args++;
     while (*fmt != '\0') {
         if (*fmt == '%') {
             fmt++;
@@ -135,11 +136,5 @@ void inner_print(char* fmt, int* args) {
         }
         fmt++;
     }
-}
-
-void print(char* fmt, ...) {
-    int* address = (int*)&fmt;
-    address++;
-    inner_print(fmt, address);
 }
 

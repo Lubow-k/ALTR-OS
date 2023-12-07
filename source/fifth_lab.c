@@ -7,12 +7,6 @@ typedef unsigned char byte;
 typedef unsigned short int u16;
 typedef unsigned int u32;
 
-void kernel_panic(char* fmt, ...);
-
-static void panic_handler(int vector){
-    kernel_panic("unhandled interrupt %x", vector);
-}
-
 void tramplin_0();
 void tramplin_1();
 void tramplin_2();
@@ -286,21 +280,21 @@ typedef struct{
 } didt;
 #pragma pack(pop)
 
-void fill_gate_types(descriptor* idt, void* tramplins, int start_vector, int last_vector, u16 flag) {
+// void fill_gate_types(descriptor* idt, void* tramplins, int start_vector, int last_vector, u16 flag) {
 
-    for (int vector = start_vector; vector < last_vector; vector++){
-            byte* handler = tramplins[vector];
-            u16 low_16_bits = (u16) handler;
-            u16 high_16_bits = (u16) (((u32) handler) >> 16);
-            u16 segment_selector = (u16) 8;
-            u16 flags = flag;
+//     for (int vector = start_vector; vector < last_vector; vector++){
+//             byte* handler = tramplins[vector];
+//             u16 low_16_bits = (u16) handler;
+//             u16 high_16_bits = (u16) (((u32) handler) >> 16);
+//             u16 segment_selector = (u16) 8;
+//             u16 flags = flag;
 
-            idt[vector].low_16_bits = low_16_bits;
-            idt[vector].high_16_bits = high_16_bits;
-            idt[vector].segment_selector = segment_selector;
-            idt[vector].flags = flags;
-    }
-}
+//             idt[vector].low_16_bits = low_16_bits;
+//             idt[vector].high_16_bits = high_16_bits;
+//             idt[vector].segment_selector = segment_selector;
+//             idt[vector].flags = flags;
+//     }
+// }
 
 
 void fill_tramplins() {
