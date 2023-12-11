@@ -31,9 +31,6 @@ typedef struct {
     u16 cs;
     u16 padding_5;
     u32 eflags;
-    u32 edp;
-    u16 ss;
-    u16 padding_6;
 } context;
 #pragma pack(pop)
 
@@ -43,7 +40,7 @@ void print_context(context* ctx){
     print("EAX = %x ECX = %x EDX = %x EBX = %x\n", ctx->eax, ctx->ecx, ctx->edx, ctx->ebx);
     print("ESP = %x EBP = %x ESI = %x EDI = %x\n", ctx->esp, ctx->ebp, ctx->esi, ctx->edi);
     print("DS = %x ES = %x FS = %x GS = %x\n", ctx->ds, ctx->es, ctx->fs, ctx->gs);
-    print("CS = %x SS = %x EIP = %x\n", ctx->cs, ctx->ss, ctx->eip);
+    print("CS = %x EIP = %x\n", ctx->cs, ctx->eip);
     print("EFLAGS = %x\n", ctx->eflags);
     print("error code = %x", ctx->error_code);
 }
@@ -56,20 +53,18 @@ void panic(context* ctx) {
 }
 
 int i;
-
 void timer_handler(context* ctx) {
-    print("%d ", i++);
-    return;
+    print("%d", i++);
 }
 
-void interrupt_handler(context ctx){
-    switch (ctx.vector) {
+void interrupt_handler(context* ctx){
+    switch (ctx->vector) {
     case 0x20:
-        timer_handler(&ctx); 
+        timer_handler(ctx); 
         break;
         
     default:
-        panic(&ctx);
+        panic(ctx);
         break;
     }
 }

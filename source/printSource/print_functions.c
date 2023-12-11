@@ -7,7 +7,7 @@ static int X;
 static int Y;
 
 void vga_move_screen() {
-    _memcpy((byte*)(START_ADDRESS + 80), (byte*) START_ADDRESS, 25 * 80 * 2 - 80 *   2);
+    _memcpy((byte*)(START_ADDRESS + 80), (byte*) START_ADDRESS, 25 * 80 * 2 - 80 * 2);
     _clearcpy((byte*) (START_ADDRESS + 80 * 24), 80 * 2);
     X = 0;
     Y = 24;
@@ -30,21 +30,21 @@ int get_y() {
 }
 
 static void check_coord() {
-    if (X == 80) {
+    if (X >= 80) {
         Y++;
         X = 0;
     }
-    if (Y == 25) {
+    if (Y >= 25) {
         vga_move_screen();
     }
 }
 
 void vga_print_char(char symbol) {  // печать символа в позиции (x, y)
-    check_coord();
     short int mask = 0b10100000000; // Маска при печати символа, ставит цвет
     mask = mask | symbol;
     *((short int*)START_ADDRESS + (Y * 80 + X)) = mask;
     X++;
+    check_coord();
 }
 
 void vga_print_str(char* str) {    // печать строки, начиная с позиции (x, y)
@@ -103,18 +103,18 @@ void print_number(int number, int base) {
 }
 
 void print(char* fmt, ...) {
-    int* args = (int*)&fmt;
+    int* args = (int*) &fmt;
     args++;
     while (*fmt != '\0') {
         if (*fmt == '%') {
             fmt++;
             if (*fmt == 'd') {
-                int num = *(int*)args;
+                int num = *args;
                 print_number(num, 10);
                 args++;
             }
             else if (*fmt == 'x') {
-                int num = *(int*)args;
+                int num = *args;
                 print_number(num, 16);
                 args++;
             }

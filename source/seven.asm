@@ -266,6 +266,7 @@ _recovery_ctx:     ; in timer
     mov dx, 0x20
     mov al, 0x20
     out dx, al
+    pop esp
     popa
     pop gs
     pop fs
@@ -281,6 +282,7 @@ collect_context:
     push fs
     push gs
     pusha
+    push esp
 
     ; ds and es
     mov eax, 0x10  ; aka 16 (data segment)
