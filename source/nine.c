@@ -5,7 +5,7 @@
 short int* START = (short int*)0xB8000;
 
 typedef unsigned char byte;
- 
+
 
 static int X;
 static int Y;
@@ -13,20 +13,20 @@ static int Y;
 typedef struct {
     int x;
     int y;
-    int bound_x; 
+    int bound_x;
     int bound_y;
 } coords;
 
 static coords panel[4];
 
 static void move_screen(int num) {
-    for (int i=0;i<12;i++) {
-        byte* start_local = (byte*)START + (panel[num].bound_x - 40) * 2 + (panel[num].bound_y + i) * 80;
+    for (int i = 11; i > 0; i--) {
+        byte* start_local = (byte*)START + (panel[num].bound_x - 40) * 2 + (panel[num].bound_y - i) * 80 * 2;
         _memcpy(start_local + 80 * 2, start_local, 40 * 2);  // ?????
     }
-    _clearcpy((byte*) ((byte*)START + (panel[num].bound_x - 40) * 2 + (panel[num].bound_y + 11) * 80), 40 * 2);  // ?????????????
-    panel[num].x = panel[num].bound_x - 40;
-    panel[num].y = panel[num].bound_y - 1; 
+    _clearcpy((byte*)((byte*)START + (panel[num].bound_x - 40) * 2 + (panel[num].bound_y - 11) * 80), 40 * 2);  // ?????????????
+    //panel[num].x = panel[num].bound_x - 40;
+    panel[num].y = panel[num].bound_y - 1;
 }
 
 static void check(int num) {  // Не присвоитсz
@@ -39,7 +39,7 @@ static void check(int num) {  // Не присвоитсz
     }
 }
 
-static void print_char(int num,char symbol) {  // печать символа в позиции (x, y)
+static void print_char(int num, char symbol) {  // печать символа в позиции (x, y)
     short int mask = 0b10100000000; // Маска при печати символа, ставит цвет
     mask = mask | symbol;
     *((short int*)START + (panel[num].y * 80 + panel[num].x)) = mask;
@@ -47,7 +47,7 @@ static void print_char(int num,char symbol) {  // печать символа в
     check(num);
 }
 
-static void clear_screen() { 
+static void clear_screen() {
     short int* start = (short int*)START;
     for (int i = 0; i < 4000; i++) {
         *((short int*)start) = 0;
@@ -73,14 +73,14 @@ void init() {
 
     coords third;
     third.x = 0;
-    third.y = 13;
+    third.y = 14;
     third.bound_x = 40;
     third.bound_y = 25;
     panel[2] = third;
 
     coords fourth;
     fourth.x = 40;
-    fourth.y = 13;
+    fourth.y = 14;
     fourth.bound_x = 80;
     fourth.bound_y = 25;
     panel[3] = fourth;
@@ -119,8 +119,8 @@ static void print_number(int panel_num, int number, int base) {
 }
 
 void print_panel(int panel_num, char* fmt, ...) {
-    int* args = (int*) &fmt;
-    args += 2;
+    int* args = (int*)&fmt;
+    args++;
     while (*fmt != '\0') {
         if (*fmt == '%') {
             fmt++;
@@ -140,7 +140,7 @@ void print_panel(int panel_num, char* fmt, ...) {
         }
         else if (*fmt == '\n') {
             panel[panel_num].y++;
-            panel[panel_num].x = 0;
+            panel[panel_num].x = panel[panel_num].bound_x - 40;
             check(panel_num);
         }
         else {
