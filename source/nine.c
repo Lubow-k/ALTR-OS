@@ -20,11 +20,11 @@ typedef struct {
 static coords panel[4];
 
 static void move_screen(int num) {
-    for (int i = 11; i > 0; i--) {
+    for (int i = 13; i > 0; i--) {
         byte* start_local = (byte*)START + (panel[num].bound_x - 40) * 2 + (panel[num].bound_y - i) * 80 * 2;
         _memcpy(start_local + 80 * 2, start_local, 40 * 2);  // ?????
     }
-    _clearcpy((byte*)((byte*)START + (panel[num].bound_x - 40) * 2 + (panel[num].bound_y - 11) * 80), 40 * 2);  // ?????????????
+    _clearcpy((byte*)((byte*)START + (panel[num].bound_x - 40) * 2 + (panel[num].bound_y) * 80 * 2), 40 * 2);  // ?????????????
     //panel[num].x = panel[num].bound_x - 40;
     panel[num].y = panel[num].bound_y - 1;
 }
@@ -64,23 +64,24 @@ void init() {
     first.bound_y = 13;
     panel[0] = first;
 
+    // y = 12 --> frame
     coords second;
     second.x = 40;
     second.y = 0;
     second.bound_x = 80;
-    second.bound_y = 13;
+    second.bound_y = 13; // NOT inclusive
     panel[1] = second;
 
     coords third;
     third.x = 0;
-    third.y = 14;
+    third.y = 12;
     third.bound_x = 40;
-    third.bound_y = 25;
+    third.bound_y = 25; // NOT inclusive
     panel[2] = third;
 
     coords fourth;
     fourth.x = 40;
-    fourth.y = 14;
+    fourth.y = 12;
     fourth.bound_x = 80;
     fourth.bound_y = 25;
     panel[3] = fourth;

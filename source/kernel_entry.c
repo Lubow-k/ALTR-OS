@@ -16,33 +16,33 @@ void __main() {
 
     init();
     init_printer();
-    //for (;;) {
-    //    print_panel(0, "A");
-    //    print_panel(1, "*");
-    //    print_panel(2, "-");
-    //    print_panel(3, "R");
-    //}
+    for (;;) {
+        print_panel(0, "A");
+        print_panel(1, "*");
+        print_panel(2, "-");
+        print_panel(3, "R");
+    }
 
     //print_panel(0, "A\n");
     //print_panel(1, "P\n");
     //print_panel(2, "U");
     //print_panel(3, "R");
 
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 15; i++) {
         for (int j = 0; j < i; j++) {
             print_panel(0, " ");
         }
         print_panel(0, "%d\n", i);
     }
 
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 13; i++) {
         for (int j = 0; j < i; j++) {
             print_panel(1, " ");
         }
         print_panel(1, "%d\n", i);
     }
 
-    for (int i = 0; i < 25; i++) {
+    for (int i = 0; i < 10; i++) {
         for (int j = 0; j < i; j++) {
             print_panel(2, " ");
         }
