@@ -47,6 +47,7 @@ void print_context(context* ctx){
 
 void panic(context* ctx) {
     CLI();
+    init_printer();
     print("PANIC!\n");
     print_context(ctx);
     for (;;);

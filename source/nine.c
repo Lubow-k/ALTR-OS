@@ -2,7 +2,7 @@
 #define SIZE_OF_PANEL 4
 #define HALF_WIDTH 40
 
-short int* START_ADDRESS = (short int*)0xB8000;
+short int* START = (short int*)0xB8000;
 
 typedef unsigned char byte;
  
@@ -21,10 +21,10 @@ static coords panel[4];
 
 static void move_screen(int num) {
     for (int i=0;i<12;i++) {
-        byte* start_local = (byte*)START_ADDRESS + (panel[num].bound_x - 40) * 2 + (panel[num].bound_y + i) * 80;
+        byte* start_local = (byte*)START + (panel[num].bound_x - 40) * 2 + (panel[num].bound_y + i) * 80;
         _memcpy(start_local + 80 * 2, start_local, 40 * 2);  // ?????
     }
-    _clearcpy((byte*) ((byte*)START_ADDRESS + (panel[num].bound_x - 40) * 2 + (panel[num].bound_y + 11) * 80), 40 * 2);  // ?????????????
+    _clearcpy((byte*) ((byte*)START + (panel[num].bound_x - 40) * 2 + (panel[num].bound_y + 11) * 80), 40 * 2);  // ?????????????
     panel[num].x = panel[num].bound_x - 40;
     panel[num].y = panel[num].bound_y - 1; 
 }
@@ -42,13 +42,13 @@ static void check(int num) {  // Не присвоитсz
 static void print_char(int num,char symbol) {  // печать символа в позиции (x, y)
     short int mask = 0b10100000000; // Маска при печати символа, ставит цвет
     mask = mask | symbol;
-    *((short int*)START_ADDRESS + (panel[num].y * 80 + panel[num].x)) = mask;
+    *((short int*)START + (panel[num].y * 80 + panel[num].x)) = mask;
     panel[num].x++;
     check(num);
 }
 
 static void clear_screen() { 
-    short int* start = (short int*)START_ADDRESS;
+    short int* start = (short int*)START;
     for (int i = 0; i < 4000; i++) {
         *((short int*)start) = 0;
         start++;

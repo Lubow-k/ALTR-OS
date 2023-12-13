@@ -4,6 +4,7 @@ if ! (nasm -felf source/internal_commands.asm -o internal_commands.o) ; then ech
 if ! (nasm -felf source/seven.asm -o seven_asm.o) ; then echo "seven.asm error"; exit 1; fi
 
 if ! (gcc -m32 -ffreestanding -c -o fifth_lab.o source/fifth_lab.c) ; then echo "fifth_lab.c error"; exit 1; fi
+if ! (gcc -m32 -ffreestanding -c -o nine.o source/nine.c) ; then echo "nine.c error"; exit 1; fi
 if ! (gcc -m32 -ffreestanding -c -o seven.o source/seven.c) ; then echo "seven.c error"; exit 1; fi
 if ! (gcc -m32 -ffreestanding -c -o memory.o source/printSource/memory.c) ; then echo "memory.c error"; exit 1; fi
 if ! (gcc -m32 -ffreestanding -c -o print_functions.o source/printSource/print_functions.c) then echo "print_functions.c error"; exit 1; fi
@@ -11,7 +12,7 @@ if ! (gcc -m32 -ffreestanding -c -o linear_alloc.o source/allocator/linear_alloc
 if ! (gcc -m32 -ffreestanding -c -o six_lab.o source/configureController/six_lab.c) ; then echo "six_lab.c error"; exit 1; fi
 if ! (gcc -m32 -ffreestanding -c -o kernel_entry.o source/kernel_entry.c) ; then echo "kernel_entry.c error"; exit 1; fi
 
-ld -m i386pe -o kernel.tmp -Ttext 0x20200 kernel_entry.o print_functions.o fifth_lab.o six_lab.o seven.o linear_alloc.o memory.o seven_asm.o internal_commands.o
+ld -m i386pe -o kernel.tmp -Ttext 0x20200 kernel_entry.o print_functions.o nine.o fifth_lab.o six_lab.o seven.o linear_alloc.o memory.o seven_asm.o internal_commands.o
 
 objcopy -I pe-i386 -O binary kernel.tmp kernel.bin
 
@@ -26,6 +27,7 @@ bochs -f os.bxrc -q
 
 rm internal_commands.o
 rm seven_asm.o
+rm nine.o
 rm seven.o
 rm fifth_lab.o
 rm six_lab.o
