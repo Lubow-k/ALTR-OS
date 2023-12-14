@@ -20,12 +20,11 @@ typedef struct {
 static coords panel[4];
 
 static void move_screen(int num) {
-    for (int i = 13; i > 0; i--) {
+    for (int i = 12; i > 0; i--) {
         byte* start_local = (byte*)START + (panel[num].bound_x - 40) * 2 + (panel[num].bound_y - i) * 80 * 2;
-        _memcpy(start_local + 80 * 2, start_local, 40 * 2);  // ?????
+        _memcpy(start_local + 80 * 2, start_local, 40 * 2);
     }
-    _clearcpy((byte*)((byte*)START + (panel[num].bound_x - 40) * 2 + (panel[num].bound_y) * 80 * 2), 40 * 2);  // ?????????????
-    //panel[num].x = panel[num].bound_x - 40;
+    _clearcpy((byte*)((byte*)START + (panel[num].bound_x - 40) * 2 + (panel[num].bound_y) * 80 * 2), 40 * 2);
     panel[num].y = panel[num].bound_y - 1;
 }
 
@@ -55,36 +54,23 @@ static void clear_screen() {
     }
 }
 
+static void fill_panel(int panelNum, int startX, int startY, int boundX, int boundY) {
+    coords panelka;
+    panelka.x = startX;
+    panelka.y = startY;
+    panelka.bound_x = boundX;
+    panelka.bound_y = boundY;  // NOT inclusive
+    panel[panelNum] = panelka;
+}
+
 void init() {
     clear_screen();
-    coords first;
-    first.x = 0;
-    first.y = 0;
-    first.bound_x = 40;
-    first.bound_y = 13;
-    panel[0] = first;
+    fill_panel(0, 0, 0, 40, 12);
+    fill_panel(1, 40, 0, 80, 12);
+    fill_panel(2, 0, 13, 40, 25);
+    fill_panel(3, 40, 13, 80, 25);
 
-    // y = 12 --> frame
-    coords second;
-    second.x = 40;
-    second.y = 0;
-    second.bound_x = 80;
-    second.bound_y = 13; // NOT inclusive
-    panel[1] = second;
-
-    coords third;
-    third.x = 0;
-    third.y = 12;
-    third.bound_x = 40;
-    third.bound_y = 25; // NOT inclusive
-    panel[2] = third;
-
-    coords fourth;
-    fourth.x = 40;
-    fourth.y = 12;
-    fourth.bound_x = 80;
-    fourth.bound_y = 25;
-    panel[3] = fourth;
+    //// y = 12 --> frame
 }
 
 
