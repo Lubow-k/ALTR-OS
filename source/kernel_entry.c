@@ -21,9 +21,9 @@ void __main() {
     configure_slave_controller();  
 
     init();
-    //panel_printing_scroll();
-    //endless_panel_printing();
-    panel_printing_collisions();
+    // panel_printing_scroll();
+    endless_panel_printing();
+    // panel_printing_collisions();
 
     for(;;);
 }
