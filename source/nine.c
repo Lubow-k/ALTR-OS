@@ -1,8 +1,10 @@
 #include "printSource/memory.h"
 #define SIZE_OF_PANEL 4
-#define HALF_WIDTH 40
+#define HALF_WIDTH 39
 
 short int* START = (short int*)0xB8000;
+short int pink = 0b10100000000;
+short int grey = 0b11100000000;
 
 typedef unsigned char byte;
  
@@ -20,17 +22,17 @@ typedef struct {
 static coords panel[4];
 
 static void move_screen(int num) {
-    for (int i=12;i>0;i--) {
-        byte* start_local = (byte*)START + (panel[num].bound_x - 40) * 2 + (panel[num].bound_y - i) * 80 * 2;
-        _memcpy(start_local + 80 * 2, start_local, 40 * 2);
+    for (int i=11;i>0;i--) {
+        byte* start_local = (byte*)START + (panel[num].bound_x - HALF_WIDTH) * 2 + (panel[num].bound_y - (i + 1)) * 80 * 2;
+        _memcpy(start_local + 80 * 2, start_local, HALF_WIDTH * 2);
     }
-    _clearcpy((byte*) ((byte*)START + (panel[num].bound_x - 40) * 2 + (panel[num].bound_y) * 80 * 2), 40 * 2);
+    _clearcpy((byte*) ((byte*)START + (panel[num].bound_x - HALF_WIDTH) * 2 + (panel[num].bound_y - 1) * 80 * 2), HALF_WIDTH * 2);
     panel[num].y = panel[num].bound_y - 1; 
 }
 
-static void check(int num) {  // Не присвоитсz
+static void check(int num) {  
     if (panel[num].x >= panel[num].bound_x) {
-        panel[num].x = panel[num].bound_x - 40;
+        panel[num].x = panel[num].bound_x - HALF_WIDTH;
         panel[num].y++;
     }
     if (panel[num].y >= panel[num].bound_y) {
@@ -38,8 +40,8 @@ static void check(int num) {  // Не присвоитсz
     }
 }
 
-static void print_char(int num,char symbol) {  // печать символа в позиции (x, y)
-    short int mask = 0b10100000000; // Маска при печати символа, ставит цвет
+static void print_char(int num, char symbol, short int color) {  // печать символа в позиции (x, y)
+    short int mask = color; // Маска при печати символа, ставит цвет
     mask = mask | symbol;
     *((short int*)START + (panel[num].y * 80 + panel[num].x)) = mask;
     panel[num].x++;
@@ -65,18 +67,33 @@ static void fill_panel(int panelNum, int startX, int startY, int boundX, int bou
 
 void init() {
     clear_screen();
-    fill_panel(0, 0, 0, 40, 12);
-    fill_panel(1, 40, 0, 80, 12);
-    fill_panel(2, 0, 13, 40, 25);
-    fill_panel(3, 40, 13, 80, 25);
+    fill_panel(0, 0, 0, 39, 12);
+    fill_panel(1, 41, 0, 80, 12);
+    fill_panel(2, 0, 13, 39, 25);
+    fill_panel(3, 41, 13, 80, 25);
 
-    //// y = 12 --> frame
+    short int mask = grey;
+    unsigned char symbol = 205;   
+    mask = mask | symbol;
+
+    for (int i = 0; i < 80; i++) {
+        *((short int*)START + (12 * 80 + i)) = mask;
+    }
+
+    mask = grey;
+    symbol = 186;
+    mask = mask | symbol;
+
+    for (int i = 0; i < 25; i++) {
+        *((short int*)START + (i * 80 + HALF_WIDTH)) = mask;
+        *((short int*)START + (i * 80 + HALF_WIDTH + 1)) = mask;
+    }
 }
 
 
 static void print_number(int panel_num, int number, int base) {
     if (number == 0) {
-        print_char(panel_num, 48);
+        print_char(panel_num, 48, pink);
     }
     else {
         int num = number;
@@ -96,10 +113,10 @@ static void print_number(int panel_num, int number, int base) {
             number = number % deg;
             deg = deg / base;
             if (digit > 9) {
-                print_char(panel_num, digit + 'A' - 10);
+                print_char(panel_num, digit + 'A' - 10, pink);
             }
             else {
-                print_char(panel_num, digit + '0');
+                print_char(panel_num, digit + '0', pink);
             }
         }
     }
@@ -122,7 +139,7 @@ void print_panel(int panel_num, char* fmt, ...) {
                 args++;
             }
             else {
-                print_char(panel_num, *fmt);
+                print_char(panel_num, *fmt, pink);
             }
         }
         else if (*fmt == '\n') {
@@ -131,7 +148,7 @@ void print_panel(int panel_num, char* fmt, ...) {
             check(panel_num);
         }
         else {
-            print_char(panel_num, *fmt);
+            print_char(panel_num, *fmt, pink);
         }
         fmt++;
     }
