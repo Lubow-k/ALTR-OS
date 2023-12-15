@@ -259,8 +259,13 @@
 
 [GLOBAL _experiment]
 [GLOBAL _recovery_ctx]
+[GLOBAL _change_esp]
 
 [EXTERN _interrupt_handler]
+
+_change_esp:
+    mov esp, [esp + 4]
+    jmp _recovery_ctx
 
 _recovery_ctx:     ; in timer
     mov dx, 0x20
@@ -293,7 +298,6 @@ collect_context:
     jmp _recovery_ctx
 
 _experiment:
-    mov eax, 1
     mov ecx, 2
     mov edx, 3
     mov ebx, 4

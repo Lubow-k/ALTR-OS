@@ -1,3 +1,5 @@
+#define NULL (int*) 0
+
 enum Color {
   PINK = 0b10100000000,
   RED = 0b10000000000,
@@ -7,4 +9,4 @@ enum Color {
 };
 
 void init();
-void print_panel(int panel_num, char* fmt, ...);
+void print_panel(int panel_num, char* fmt, int* args);
