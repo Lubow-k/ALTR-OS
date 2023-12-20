@@ -27,3 +27,5 @@ typedef struct {
     u32 eflags;
 } context;
 #pragma pack(pop)
+
+void create_contexts();

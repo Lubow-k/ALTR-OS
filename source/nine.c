@@ -97,29 +97,12 @@ typedef struct {
 } bound;
 
 
-static bound bounds[AMOUNT_OF_APP];
-void printer_handler(context* ctx) {
-    print_panel(0, "In print handler", NULL);
-    for (int index = 0; index < AMOUNT_OF_APP; index++){
-        if (bounds[index].start_address <= ctx->esp <= bounds[index].end_address){
-            print_panel(bounds[index].number, *(char**) ctx->eax, (int*) ctx->eax + 1); // Достать аргументы (наверное так)
-            break;
-        }
-    }
-}
-
-
 void init() {
     clear_screen();
     fill_panel(0, 0, 0, CONSOLE_WIDTH, PANEL_HEIGHT / 2);
     fill_panel(1, CONSOLE_WIDTH + 2, 0, PANEL_WIDTH, PANEL_HEIGHT / 2);
     fill_panel(2, 0, 13, CONSOLE_WIDTH, PANEL_HEIGHT);
     fill_panel(3, CONSOLE_WIDTH + 2, PANEL_HEIGHT / 2 + 1, PANEL_WIDTH, PANEL_HEIGHT);
-
-    // Вынести в отдельную функцию
-    bounds[0].start_address = 0;
-    bounds[0].end_address = 0x20200; // May be error
-    bounds[0].number = 1;
 
     short int mask = (short int) GREY;
     unsigned char symbol = 205;   
@@ -172,8 +155,6 @@ static void print_number(int panel_num, int number, int base) {
 }
 
 void print_panel(int panel_num, char* fmt, int* args) {
-    // int* args = (int*) &fmt;
-    // args++;
     while (*fmt != '\0') {
         if (*fmt == '%') {
             fmt++;

@@ -8,7 +8,7 @@
 [GLOBAL _print_app]
 
 _INT:
-    int 0xd
+    int 0x20
     ret
 
 _CLI:
@@ -20,7 +20,7 @@ _STI:
     ret
 
 _inb:
-    mov dx, [esp + 4] ; ??
+    mov dx, [esp + 4] 
     in al, dx
     ret
 
@@ -31,7 +31,7 @@ _outb:
     ret
 
 _print_app:
-    mov eax, esp ;UB? Можно?
+    mov eax, esp
     add eax, 4
     int 0xFF
     ret

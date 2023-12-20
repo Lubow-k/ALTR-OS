@@ -9,8 +9,11 @@ typedef unsigned int u32;
 void printer_handler();
 void recovery_ctx();
 void CLI();
-void change_esp(int i);
+void STI();
+static void inf_print();
 void print_app(char* fmt, ...);
+void print_panel(int panel_num, char* fmt, int* args);
+static context* init_context(u32 func);
 
 
 void print_context(context* ctx){
@@ -31,24 +34,67 @@ void panic(context* ctx) {
     for (;;);
 }
 
-static u32 stack_pointers[4];
-int index;
+context* process_pointers[4];
+int index = -1;
 
-
-void timer_handler(context* ctx) {
-    stack_pointers[index] = ctx->esp;
-    index = (index + 1) % 4;
-    print_app("Changing esp %d", index);
-    change_esp(stack_pointers[index]);
+void create_contexts() {
+    process_pointers[0] = init_context((u32) inf_print);
+    process_pointers[1] = init_context((u32) inf_print);
+    process_pointers[2] = init_context((u32) inf_print);
+    process_pointers[3] = init_context((u32) inf_print);
 }
+
+static context* init_context(u32 func) {
+    u32* esp_ptr = (u32*) kernel_malloc(20 * 1024);
+    context* ctx = (context*) (esp_ptr - sizeof(context)); // ?
+    ctx->esp = ctx;
+    ctx->eax = 0;
+    ctx->ebx = 0;
+    ctx->ecx = 0;
+    ctx->edx = 0;
+    ctx->esi = 0;
+    ctx->edi = 0;
+    ctx->ebp = 0;
+    ctx->vector = 0;
+    ctx->error_code = 0;
+    ctx->eip = func;
+    ctx->cs = 0x8;
+    ctx->eflags = 0;
+    ctx->es = 0x10;
+    ctx->ds = 0x10;
+    ctx->fs = 0x10;
+    ctx->gs = 0x10;
+    return ctx;
+}
+
+static void inf_print() {
+    int i = 0;
+    for (;;){
+        print_app("%d ", i++);
+    }
+}
+
+void timer_handler(context** ctx) {
+    if (index != -1) {
+        process_pointers[index] = *ctx;
+    }
+    index = (index + 1) % 4;
+    *ctx = process_pointers[index];
+    return;
+}
+
+void printer_handler(context* ctx) {
+    print_panel(index, *(char**) ctx->eax, (int*) ctx->eax + 1);
+    STI();
+}
+
 
 void interrupt_handler(context* ctx){
     switch (ctx->vector) {
     case 0x20:
-        timer_handler(ctx); 
+        timer_handler(&ctx);  
         break;
     case 0xFF:
-        print_panel(0, "In interrupt handler\n", (int*) 0);
         printer_handler(ctx);
         break;
     default:

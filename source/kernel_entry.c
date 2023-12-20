@@ -16,6 +16,7 @@ void endless_panel_printing();
 void panel_printing_collisions();
 void panel_printing_scroll();
 void print_app(char* fmt, ...);
+void create_contexts();
 
 void inf_print();
 
@@ -28,48 +29,19 @@ void __main() {
     configure_master_controller();
     configure_slave_controller();
 
-    enable(TIMER);
-
     init();
+    create_contexts();
 
-    context* esp0 = (context*) kernel_malloc(20 * 1024);
-    context* esp1 = (context*) kernel_malloc(20 * 1024);
-    context* esp2 = (context*) kernel_malloc(20 * 1024);
-    context* esp3 = (context*) kernel_malloc(20 * 1024);
-
-    context ctx;
-    ctx.esp = esp0;
-    ctx.eip = inf_print;
-    esp0[0] = ctx;
-
-    ctx.esp = esp1;
-    ctx.eip = inf_print;
-    esp1[0] = ctx;
-
-    ctx.esp = esp2;
-    ctx.eip = inf_print;
-    esp2[0] = ctx;
-
-    ctx.esp = esp3;
-    ctx.eip = inf_print;
-    esp3[0] = ctx;
-
+    enable(TIMER);
     STI();
-    
+
+    for(;;);
+}
+
+
     // INT();
     // print_app("%d\n", 20200);
     // print_app("%d %x NONE", 30, 0x20);
     // panel_printing_scroll();
     // endless_panel_printing();
     // panel_printing_collisions();
-
-    for(;;);
-}
-
-void inf_print() {
-    int i = 0;
-    INT(0xd);
-    for (;;){
-        print_app("%d ", i++);
-    }
-}
