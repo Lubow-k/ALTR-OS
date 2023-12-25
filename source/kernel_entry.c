@@ -37,11 +37,3 @@ void __main() {
 
     for(;;);
 }
-
-
-    // INT();
-    // print_app("%d\n", 20200);
-    // print_app("%d %x NONE", 30, 0x20);
-    // panel_printing_scroll();
-    // endless_panel_printing();
-    // panel_printing_collisions();
