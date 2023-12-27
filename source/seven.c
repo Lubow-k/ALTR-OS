@@ -6,7 +6,7 @@
 typedef unsigned char byte;
 typedef unsigned short int u16;
 typedef unsigned int u32;
-#define KB 1024
+#define STACK_SIZE 1024 * 20
 
 void printer_handler();
 void recovery_ctx();
@@ -61,8 +61,8 @@ static void inf_print_3() {
 }  
 
 static context* init_context(u32 func) {
-    u32* esp_ptr = (u32*) kernel_malloc(20 * KB);
-    context* ctx = (context*) (esp_ptr - sizeof(context)); 
+    u32* esp_ptr = (u32*) kernel_malloc(STACK_SIZE);
+    context* ctx = (context*) (esp_ptr + STACK_SIZE - sizeof(context)); 
     ctx->esp = (u32) ctx;
     ctx->eax = 0;
     ctx->ebx = 0;
